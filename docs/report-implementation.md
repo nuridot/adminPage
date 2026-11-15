@@ -60,6 +60,7 @@ Node 22.12 이상. `npm ci`, `npm run check`. CI는 Node 24를 사용합니다.
 - 개발 API: `.env.staging.example`을 `.env.staging.local`로 복사하고 실제 주소를 설정한 뒤 `npm run dev -- --mode staging` 또는 `npm run build -- --mode staging`.
 - `.env.local` 및 CI 환경 변수가 모드별 설정보다 우선할 수 있으므로 배포 환경의 `VITE_API_SOURCE=http`을 확인합니다. `VITE_*` 값은 공개 번들에 포함됩니다. 비밀값을 넣지 않습니다.
 - 정적 호스팅은 모든 앱 경로를 `index.html`로 fallback해야 합니다. 운영 콘솔 Origin, API CORS·WEB 운영자 권한·MFA 정책은 서버에서 설정합니다.
-- 운영/개발은 서로 다른 콘솔 Origin과 API 주소를 사용합니다. 이 변경은 실제 인프라를 생성하거나 DNS·배포 설정을 변경하지 않습니다.
+- 운영/개발은 서로 다른 콘솔 Origin과 API 주소를 사용합니다.
+- `main`에 반영하면 기존 EC2 운영 서버로 자동 배포합니다. 배포 워크플로는 Node 24에서 의존성 설치, 타입 검사, 테스트, 운영 빌드, 보안 감사를 통과한 뒤 파일을 반영합니다. 인프라 생성과 DNS 변경은 포함하지 않습니다.
 
 개발 도구 업데이트 참고: [Vite 마이그레이션](https://vite.dev/guide/migration), [Vitest 마이그레이션](https://vitest.dev/guide/migration/).
