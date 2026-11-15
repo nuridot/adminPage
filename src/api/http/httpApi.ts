@@ -3,6 +3,7 @@ import type * as T from '../types'
 import { LoginFailure } from '../types'
 import { ApiError, http } from './client'
 import { getStoredSession, setStoredSession } from './session'
+import { MfaChallenge, type MfaStep } from '@/auth/mfa'
 
 /**
  * 실제 서버 구현 — V3 API 명세(2026-08-19 판).
@@ -45,6 +46,7 @@ const LOGIN_MESSAGE: Record<T.LoginFailureCode, string> = {
  */
 function toLoginFailure(error: unknown): never {
   if (error instanceof ApiError) {
+    if (error.code === 'AUTH4006' || error.code === 'AUTH4005') throw error
     const code: T.LoginFailureCode =
       error.code === 'AUTH4004' ? 'AUTH4004' : error.code === 'AUTH4001' ? 'AUTH4001' : 'unknown'
     throw new LoginFailure(code, error.code ? LOGIN_MESSAGE[code] : error.message)
@@ -76,8 +78,10 @@ export const httpApi: Api = {
 
     async login(input) {
       const result = await http
-        .post<LoginResult>('/api/auth/login', input, { anonymous: true })
+        .post<LoginResult | MfaStep>('/api/auth/login', input, { anonymous: true })
         .catch(toLoginFailure)
+
+      if ('mfaRequired' in result) throw new MfaChallenge(result, input.loginId)
 
       const session: T.Session = {
         loginId: input.loginId,
@@ -123,9 +127,11 @@ export const httpApi: Api = {
         })),
       })),
 
-    getLayoutCost: (month) => http.get<T.LayoutCostReport>('/api/admin/stats/layout-cost', { month }),
+    getLayoutCost: (month) =>
+      http.get<T.LayoutCostReport>('/api/admin/stats/layout-cost', { month }),
 
-    getProfitability: (month) => http.get<T.ProfitReport>('/api/admin/stats/profitability', { month }),
+    getProfitability: (month) =>
+      http.get<T.ProfitReport>('/api/admin/stats/profitability', { month }),
 
     getJobs: (params) =>
       http.get<T.JobList>('/api/admin/jobs', {
@@ -167,20 +173,22 @@ export const httpApi: Api = {
      * 특히 accounts 가 없으면 목록을 그리다 예외가 납니다.
      */
     getOrg: (orgId) =>
-      http.get<Partial<T.OrgDetail>>(`/api/admin/orgs/${encodeURIComponent(orgId)}`).then((result) => ({
-        orgId: orgIdOf(result) || orgId,
-        name: result?.name ?? '',
-        code: result?.code ?? '',
-        contractType: result?.contractType ?? 'FREE',
-        contractStartedAt: result?.contractStartedAt ?? null,
-        contractExpiresAt: result?.contractExpiresAt ?? null,
-        creditAllocated: result?.creditAllocated ?? 0,
-        creditUsed: result?.creditUsed ?? 0,
-        creditRemaining:
-          result?.creditRemaining ?? (result?.creditAllocated ?? 0) - (result?.creditUsed ?? 0),
-        receiptEmail: result?.receiptEmail ?? null,
-        accountLoginIds: Array.isArray(result?.accountLoginIds) ? result.accountLoginIds : [],
-      })),
+      http
+        .get<Partial<T.OrgDetail>>(`/api/admin/orgs/${encodeURIComponent(orgId)}`)
+        .then((result) => ({
+          orgId: orgIdOf(result) || orgId,
+          name: result?.name ?? '',
+          code: result?.code ?? '',
+          contractType: result?.contractType ?? 'FREE',
+          contractStartedAt: result?.contractStartedAt ?? null,
+          contractExpiresAt: result?.contractExpiresAt ?? null,
+          creditAllocated: result?.creditAllocated ?? 0,
+          creditUsed: result?.creditUsed ?? 0,
+          creditRemaining:
+            result?.creditRemaining ?? (result?.creditAllocated ?? 0) - (result?.creditUsed ?? 0),
+          receiptEmail: result?.receiptEmail ?? null,
+          accountLoginIds: Array.isArray(result?.accountLoginIds) ? result.accountLoginIds : [],
+        })),
 
     updateOrg: (orgId, patch) =>
       http.patch<T.OrgDetail>(`/api/admin/orgs/${encodeURIComponent(orgId)}`, patch),
@@ -194,7 +202,9 @@ export const httpApi: Api = {
         .then((result) => result.accounts ?? []),
 
     deleteAccount: (loginId) =>
-      http.delete<unknown>(`/api/admin/accounts/${encodeURIComponent(loginId)}`).then(() => undefined),
+      http
+        .delete<unknown>(`/api/admin/accounts/${encodeURIComponent(loginId)}`)
+        .then(() => undefined),
 
     reissuePassword: (loginId) =>
       http.post<T.IssuedCredential>(
@@ -220,7 +230,9 @@ export const httpApi: Api = {
       http.post<T.Coupon>(`/api/admin/orgs/${encodeURIComponent(orgId)}/coupons`, input),
 
     getOrders: (organizationId) =>
-      http.get<unknown>('/api/admin/orders', { organizationId }).then((result) => list<T.Order>(result)),
+      http
+        .get<unknown>('/api/admin/orders', { organizationId })
+        .then((result) => list<T.Order>(result)),
 
     createOrder: (input) => http.post<T.Order>('/api/admin/orders', input),
 
@@ -266,7 +278,8 @@ export const httpApi: Api = {
         .patch<unknown>(`/api/admin/inquiries/${encodeURIComponent(inquiryId)}/status`, { status })
         .then(() => undefined),
 
-    getNotices: () => http.get<unknown>('/api/admin/notices').then((result) => list<T.Notice>(result)),
+    getNotices: () =>
+      http.get<unknown>('/api/admin/notices').then((result) => list<T.Notice>(result)),
 
     createNotice: (input) => http.post<T.Notice>('/api/admin/notices', input),
   },
@@ -294,14 +307,18 @@ export const httpApi: Api = {
         to: range?.to,
       }),
 
-    getRequests: () => http.get<unknown>('/api/org/requests').then((result) => list<T.OrgRequest>(result)),
+    getRequests: () =>
+      http.get<unknown>('/api/org/requests').then((result) => list<T.OrgRequest>(result)),
 
     createRequest: (input) => http.post<T.OrgRequest>('/api/org/requests', input),
 
     cancelRequest: (requestId) =>
-      http.delete<unknown>(`/api/org/requests/${encodeURIComponent(requestId)}`).then(() => undefined),
+      http
+        .delete<unknown>(`/api/org/requests/${encodeURIComponent(requestId)}`)
+        .then(() => undefined),
 
-    getNotices: () => http.get<unknown>('/api/org/notices').then((result) => list<T.OrgNotice>(result)),
+    getNotices: () =>
+      http.get<unknown>('/api/org/notices').then((result) => list<T.OrgNotice>(result)),
 
     getOrders: () =>
       http.get<T.OrgOrderList>('/api/org/orders').then((result) => ({

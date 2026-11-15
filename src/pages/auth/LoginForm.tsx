@@ -4,6 +4,8 @@ import { demoLoginAccounts, isMockApi } from '@/api'
 import { LoginFailure, type Role, type Session } from '@/api/types'
 import { useAuth } from '@/auth/AuthContext'
 import { LoginLayout } from './LoginLayout'
+import { MfaChallenge } from '@/auth/mfa'
+import { MfaForm } from './MfaForm'
 
 interface Props {
   /** 카드 위에 적는 주소 — 이 진입점이 어디인지 알려 줍니다. */
@@ -42,6 +44,7 @@ export function LoginForm({
 
   const [loginId, setLoginId] = useState('')
   const [password, setPassword] = useState('')
+  const [mfa, setMfa] = useState<MfaChallenge | null>(null)
   const [error, setError] = useState<string | null>(
     (location.state as { forbidden?: boolean } | null)?.forbidden
       ? '이 화면을 볼 수 있는 계정으로 로그인해 주세요.'
@@ -67,6 +70,11 @@ export function LoginForm({
     try {
       goAfterLogin(await login({ loginId, password }))
     } catch (caught) {
+      if (caught instanceof MfaChallenge) {
+        setPassword('')
+        setMfa(caught)
+        return
+      }
       setError(
         caught instanceof LoginFailure
           ? caught.message
@@ -79,14 +87,15 @@ export function LoginForm({
   const alreadyIn = session && !wrongEntry ? destinations[session.role] : undefined
   if (alreadyIn) return <Navigate to={alreadyIn} replace />
 
+  if (mfa) return <MfaForm challenge={mfa} onComplete={goAfterLogin} onBack={() => setMfa(null)} />
+
   if (wrongEntry) {
     return (
       <LoginLayout>
         <LoginHeader host={host} title={title} description={description} />
         <p className="notice-box">
-          <strong>{wrongEntry.loginId}</strong> 은 <strong>{ROLE_LABEL[wrongEntry.role]}</strong> 계정입니다.
-          {' '}
-          {ENTRY_HINT[wrongEntry.role]}
+          <strong>{wrongEntry.loginId}</strong> 은 <strong>{ROLE_LABEL[wrongEntry.role]}</strong>{' '}
+          계정입니다. {ENTRY_HINT[wrongEntry.role]}
         </p>
         <button
           type="button"

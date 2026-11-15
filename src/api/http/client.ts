@@ -23,6 +23,12 @@ export class ApiError extends Error {
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? ''
 
 let onUnauthorized: (() => void) | null = null
+let onReauthenticate: (() => Promise<void>) | null = null
+let reauthenticating: Promise<void> | null = null
+
+export function setReauthenticationHandler(handler: (() => Promise<void>) | null) {
+  onReauthenticate = handler
+}
 
 /**
  * 세션이 끊겼을 때(재발급 실패) 앱이 할 일을 등록합니다. AuthProvider 가 심어 둡니다.
@@ -62,7 +68,8 @@ async function unwrap<T>(response: Response): Promise<T> {
 
   if (!response.ok || body.isSuccess === false) {
     const code = typeof body.code === 'string' ? body.code : null
-    const message = typeof body.message === 'string' ? body.message : `${response.status} ${response.statusText}`
+    const message =
+      typeof body.message === 'string' ? body.message : `${response.status} ${response.statusText}`
     throw new ApiError(response.status, code, message, body)
   }
 
@@ -111,6 +118,7 @@ interface Options {
   anonymous?: boolean
   /** multipart 등 JSON 이 아닌 본문 */
   formData?: FormData
+  headers?: Record<string, string>
 }
 
 async function send(
@@ -119,14 +127,15 @@ async function send(
   options: Options,
   accessToken: string | null,
 ): Promise<Response> {
-  const headers: Record<string, string> = {}
+  const headers: Record<string, string> = { ...options.headers }
   if (accessToken) headers.Authorization = `Bearer ${accessToken}`
   if (options.body !== undefined) headers['Content-Type'] = 'application/json'
 
   return fetch(buildUrl(path, options.query), {
     method,
     headers,
-    body: options.formData ?? (options.body === undefined ? undefined : JSON.stringify(options.body)),
+    body:
+      options.formData ?? (options.body === undefined ? undefined : JSON.stringify(options.body)),
   })
 }
 
@@ -135,18 +144,45 @@ async function request<T>(method: string, path: string, options: Options = {}): 
   let response = await send(method, path, options, token)
 
   // 액세스 토큰 만료(401)면 한 번만 재발급하고 그대로 다시 부릅니다.
-  if (response.status === 401 && !options.anonymous) {
-    const renewed = await refreshAccessToken()
+  if (response.status === 401 && !options.anonymous && path !== '/api/admin/auth/reauth') {
+    const currentToken = getStoredSession()?.accessToken
+    const renewed =
+      currentToken && currentToken !== token ? currentToken : await refreshAccessToken()
     if (!renewed) {
       throw new ApiError(401, 'COMMON4001', '로그인이 필요합니다.')
     }
     response = await send(method, path, options, renewed)
   }
 
-  return unwrap<T>(response)
+  try {
+    return await unwrap<T>(response)
+  } catch (error) {
+    if (
+      error instanceof ApiError &&
+      (error.code === 'AUTH4007' || (error.status === 401 && path !== '/api/admin/auth/reauth')) &&
+      !options.anonymous
+    ) {
+      setStoredSession(null)
+      onUnauthorized?.()
+    }
+    if (
+      error instanceof ApiError &&
+      error.code === 'AUTH4013' &&
+      onReauthenticate &&
+      path !== '/api/admin/auth/reauth'
+    ) {
+      reauthenticating ??= onReauthenticate().finally(() => {
+        reauthenticating = null
+      })
+      await reauthenticating
+      return unwrap<T>(await send(method, path, options, getStoredSession()?.accessToken ?? null))
+    }
+    throw error
+  }
 }
 
 export const http = {
+  request,
   get: <T>(path: string, query?: Query) => request<T>('GET', path, { query }),
   post: <T>(path: string, body?: unknown, options?: Omit<Options, 'body'>) =>
     request<T>('POST', path, { ...options, body }),

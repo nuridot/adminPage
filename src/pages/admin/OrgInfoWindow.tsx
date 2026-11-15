@@ -17,7 +17,15 @@ import { Badge, Card, ErrorBox, Loading, Meter, queryFallback } from '@/componen
 import { ConfirmModal, Modal } from '@/components/Modal'
 import { useToast } from '@/components/Toast'
 import { WindowShell } from '@/layouts/WindowShell'
-import { CONTRACT_TYPES, contractTypeLabel, date, number, shortDate, usageRate, won } from '@/lib/format'
+import {
+  CONTRACT_TYPES,
+  contractTypeLabel,
+  date,
+  number,
+  shortDate,
+  usageRate,
+  won,
+} from '@/lib/format'
 
 const COUPON_STATUS = {
   SCHEDULED: { label: '예정', tone: 'info' },
@@ -140,7 +148,12 @@ export function OrgInfoWindow() {
           <button type="button" className="btn btn--danger" onClick={() => setDeleteOpen(true)}>
             기관 삭제
           </button>
-          <button type="button" className="btn btn--primary" disabled={updateOrg.isPending} onClick={save}>
+          <button
+            type="button"
+            className="btn btn--primary"
+            disabled={updateOrg.isPending}
+            onClick={save}
+          >
             저장
           </button>
         </>
@@ -166,7 +179,9 @@ export function OrgInfoWindow() {
             <select
               className="select"
               value={form.contractType}
-              onChange={(event) => setForm({ ...form, contractType: event.target.value as ContractType })}
+              onChange={(event) =>
+                setForm({ ...form, contractType: event.target.value as ContractType })
+              }
             >
               {CONTRACT_TYPES.map((type) => (
                 <option key={type} value={type}>
@@ -209,9 +224,13 @@ export function OrgInfoWindow() {
       </Card>
 
       <Card title="크레딧">
+        <p className="notice-box">
+          주문 입금분은 크레딧 관리의 주문 지급에서 처리하세요. 주문 지급은 배정량도 함께 올리므로
+          여기서 다시 더하면 중복 지급됩니다.
+        </p>
         <div className="field">
           <span className="field__label">할당</span>
-          {/* T2 의 크레딧 추가 요청은 이 값을 올려 처리합니다(명세 §기관 상세·수정). */}
+          {/* 기존 관문 배정량. 주문 지급은 원장 화면에서 처리합니다. */}
           <input
             className="input"
             type="number"
@@ -373,8 +392,8 @@ export function OrgInfoWindow() {
             <input className="input input--readonly num" value={issued?.password ?? ''} readOnly />
           </div>
           <p className="notice-box">
-            비밀번호는 <strong>이 창에서만</strong> 볼 수 있습니다. 서버는 해시만 보관해 다시 조회할 수
-            없습니다.
+            비밀번호는 <strong>이 창에서만</strong> 볼 수 있습니다. 서버는 해시만 보관해 다시 조회할
+            수 없습니다.
           </p>
         </div>
       </Modal>
@@ -453,7 +472,10 @@ export function OrgInfoWindow() {
               type="button"
               className="btn btn--primary"
               disabled={
-                !coupon.name || !coupon.startsOn || !coupon.endsOn || coupon.creditAmount <= 0 ||
+                !coupon.name ||
+                !coupon.startsOn ||
+                !coupon.endsOn ||
+                coupon.creditAmount <= 0 ||
                 issueCoupon.isPending
               }
               onClick={() =>
@@ -488,7 +510,9 @@ export function OrgInfoWindow() {
               type="number"
               min={1}
               value={coupon.creditAmount}
-              onChange={(event) => setCoupon({ ...coupon, creditAmount: Number(event.target.value) })}
+              onChange={(event) =>
+                setCoupon({ ...coupon, creditAmount: Number(event.target.value) })
+              }
             />
           </div>
           <div className="field">

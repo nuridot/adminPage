@@ -1,0 +1,354 @@
+{
+  "POST /api/admin/orders/{orderId}/quote": {},
+  "POST /api/admin/billing/tax-invoices/{taxInvoiceId}/cancel": {
+    "reason": "textarea"
+  },
+  "POST /api/admin/releases/{releaseId}/notes/approve": {},
+  "POST /api/admin/releases/{releaseId}/notes/reject": {},
+  "POST /api/admin/secrets": {
+    "name": "text",
+    "environment": "text",
+    "purpose": "text",
+    "owner": "text",
+    "reference": "text",
+    "expiresOn": "date",
+    "rotatedOn": "date",
+    "memo": "textarea"
+  },
+  "POST /api/admin/billing/invoices/{invoiceId}/cancel": {
+    "reason": "textarea"
+  },
+  "POST /api/admin/notifications/read-all": {},
+  "PATCH /api/admin/incidents/{incidentId}/status": {
+    "status": "text"
+  },
+  "PUT /api/admin/official-mail/threads/{threadId}/organization": {
+    "organizationId": "text",
+    "reason": "textarea"
+  },
+  "POST /api/admin/secrets/{secretId}/rotate": {
+    "rotatedOn": "date",
+    "expiresOn": "date"
+  },
+  "PUT /api/admin/releases/{releaseId}/notes": {
+    "changes": "textarea",
+    "improvements": "textarea",
+    "fixes": "textarea",
+    "knownIssues": "textarea",
+    "publicText": "textarea"
+  },
+  "POST /api/admin/credit/wallets/{walletId}/grants": {
+    "amount": "number",
+    "reason": "textarea",
+    "validUntil": "date"
+  },
+  "PUT /api/admin/releases/{releaseId}": {
+    "build": "text",
+    "fileUrl": "text",
+    "checksumSha256": "text",
+    "signatureStatus": "text",
+    "minSupportedVersion": "text",
+    "targetScope": "text",
+    "targetOrgIds": ["text"],
+    "memo": "textarea"
+  },
+  "DELETE /api/admin/billing/payments/{paymentId}/allocations/{allocationId}": {},
+  "POST /api/admin/notifications/{notificationId}/read": {},
+  "POST /api/admin/releases/{releaseId}/resume": {},
+  "PUT /api/admin/secrets/{secretId}": {
+    "purpose": "text",
+    "owner": "text",
+    "reference": "text",
+    "expiresOn": "date",
+    "status": "text",
+    "memo": "textarea"
+  },
+  "POST /api/admin/billing/payments": {
+    "organizationId": "text",
+    "receivedOn": "date",
+    "amount": "number",
+    "payerName": "text",
+    "method": "text",
+    "memo": "textarea",
+    "allocations": [
+      {
+        "invoiceId": "text",
+        "amount": "number"
+      }
+    ]
+  },
+  "POST /api/admin/credit/wallets/{walletId}/adjustments": {
+    "amount": "number",
+    "reason": "textarea"
+  },
+  "POST /api/admin/billing/invoices/{invoiceId}/documents": {
+    "type": "text"
+  },
+  "DELETE /api/admin/official-mail/drafts/{draftId}": {},
+  "PATCH /api/admin/contracts/{contractId}": {
+    "planType": "text",
+    "startDate": "date",
+    "endDate": "date",
+    "amountKrw": "number",
+    "monthlyFeeKrw": "number",
+    "terms": "textarea",
+    "partyName": "text",
+    "partyBizNo": "text",
+    "partyRepresentative": "text",
+    "partyAddress": "text",
+    "partySignatory": "text",
+    "ourSignatory": "text",
+    "changeNote": "textarea"
+  },
+  "POST /api/admin/billing/payments/{paymentId}/void": {
+    "reason": "textarea"
+  },
+  "POST /api/admin/contracts/{contractId}/versions": {
+    "planType": "text",
+    "startDate": "date",
+    "endDate": "date",
+    "amountKrw": "number",
+    "monthlyFeeKrw": "number",
+    "terms": "textarea",
+    "partyName": "text",
+    "partyBizNo": "text",
+    "partyRepresentative": "text",
+    "partyAddress": "text",
+    "partySignatory": "text",
+    "ourSignatory": "text",
+    "changeNote": "textarea"
+  },
+  "POST /api/admin/releases/{releaseId}/halt": {
+    "reason": "textarea"
+  },
+  "PATCH /api/admin/official-mail/threads/{threadId}/assignee": {
+    "assigneeUserId": "text"
+  },
+  "POST /api/admin/billing/payments/{paymentId}/refunds": {
+    "amount": "number",
+    "refundedOn": "date",
+    "reason": "textarea"
+  },
+  "PUT /api/admin/incidents/{incidentId}": {
+    "title": "text",
+    "severity": "text",
+    "assigneeUserId": "text",
+    "sentryUrl": "text",
+    "affectedJobCount": "number",
+    "relatedReleaseId": "number",
+    "affectedOrgIds": ["text"],
+    "relatedInquiryIds": ["text"],
+    "startedAt": "datetime-local"
+  },
+  "POST /api/admin/contracts/{contractId}/signed-file": {},
+  "POST /api/admin/billing/invoices/{invoiceId}/collection-events": {
+    "type": "text",
+    "note": "textarea",
+    "untilDate": "date"
+  },
+  "POST /api/admin/datasets/records": {
+    "datasetName": "text",
+    "asOf": "date",
+    "cumulativeQuantity": "number",
+    "unit": "text",
+    "source": "text",
+    "correctionReason": "textarea"
+  },
+  "PATCH /api/admin/official-mail/threads/{threadId}/status": {
+    "status": "text"
+  },
+  "POST /api/admin/incidents": {
+    "title": "text",
+    "severity": "text",
+    "assigneeUserId": "text",
+    "sentryUrl": "text",
+    "affectedJobCount": "number",
+    "relatedReleaseId": "number",
+    "affectedOrgIds": ["text"],
+    "relatedInquiryIds": ["text"],
+    "startedAt": "datetime-local"
+  },
+  "POST /api/admin/official-mail/drafts": {
+    "threadId": "text",
+    "replyToMessageId": "text",
+    "toAddresses": "text",
+    "ccAddresses": "text",
+    "bccAddresses": "text",
+    "subject": "text",
+    "bodyText": "textarea"
+  },
+  "POST /api/admin/credit/orders/{orderId}/grant": {
+    "reason": "textarea"
+  },
+  "POST /api/admin/billing/invoices/{invoiceId}/corrections": {
+    "includeMonthlyFee": "checkbox",
+    "orderIds": ["text"],
+    "extraItems": [
+      {
+        "description": "text",
+        "quantity": "number",
+        "unitPrice": "number"
+      }
+    ],
+    "issueDate": "date",
+    "dueDate": "date",
+    "note": "textarea"
+  },
+  "POST /api/admin/billing/invoices": {
+    "contractId": "text",
+    "billingMonth": "month",
+    "includeMonthlyFee": "checkbox",
+    "orderIds": ["text"],
+    "extraItems": [
+      {
+        "description": "text",
+        "quantity": "number",
+        "unitPrice": "number"
+      }
+    ],
+    "issueDate": "date",
+    "dueDate": "date",
+    "note": "textarea"
+  },
+  "POST /api/admin/official-mail/drafts/{draftId}/send": {},
+  "PATCH /api/admin/releases/{releaseId}/signature": {
+    "signatureStatus": "text"
+  },
+  "POST /api/admin/official-mail/drafts/{draftId}/confirm": {
+    "toAddresses": "text",
+    "ccAddresses": "text",
+    "bccAddresses": "text",
+    "subject": "text",
+    "bodyText": "textarea"
+  },
+  "PATCH /api/admin/official-mail/drafts/{draftId}": {
+    "toAddresses": "text",
+    "ccAddresses": "text",
+    "bccAddresses": "text",
+    "subject": "text",
+    "bodyText": "textarea"
+  },
+  "PATCH /api/admin/billing/documents/{documentId}/share": {
+    "shared": "checkbox"
+  },
+  "POST /api/admin/billing/payments/{paymentId}/allocations": {
+    "invoiceId": "text",
+    "amount": "number"
+  },
+  "POST /api/admin/releases/{releaseId}/notes/submit": {},
+  "PUT /api/admin/credit/users/{userId}/subscription": {
+    "planCode": "text",
+    "startsOn": "date"
+  },
+  "POST /api/admin/releases/{releaseId}/publish": {
+    "publishAt": "datetime-local"
+  },
+  "POST /api/admin/contracts/{contractId}/status": {
+    "status": "text",
+    "reason": "textarea",
+    "endedOn": "date"
+  },
+  "POST /api/admin/releases": {
+    "platform": "text",
+    "channel": "text",
+    "version": "text",
+    "build": "text",
+    "fileUrl": "text",
+    "checksumSha256": "text",
+    "signatureStatus": "text",
+    "minSupportedVersion": "text",
+    "targetScope": "text",
+    "targetOrgIds": ["text"],
+    "memo": "textarea"
+  },
+  "POST /api/admin/official-mail/threads/{threadId}/notes": {
+    "body": "textarea"
+  },
+  "POST /api/admin/billing/tax-invoices": {},
+  "POST /api/admin/contracts": {
+    "organizationId": "text",
+    "renewedFromId": "text",
+    "terms": {
+      "planType": "text",
+      "startDate": "date",
+      "endDate": "date",
+      "amountKrw": "number",
+      "monthlyFeeKrw": "number",
+      "terms": "textarea",
+      "partyName": "text",
+      "partyBizNo": "text",
+      "partyRepresentative": "text",
+      "partyAddress": "text",
+      "partySignatory": "text",
+      "ourSignatory": "text",
+      "changeNote": "textarea"
+    }
+  },
+  "POST /api/admin/official-mail/drafts/{draftId}/check": {},
+  "POST /api/admin/notifications/{notificationId}/acknowledge": {
+    "memo": "textarea"
+  },
+  "POST /api/admin/incidents/{incidentId}/notes": {
+    "body": "textarea"
+  },
+  "DELETE /api/admin/accounts/{loginId}/mfa": {},
+  "PUT /api/admin/sales/opportunities/{opportunityId}/contract": {
+    "contractId": "text"
+  },
+  "POST /api/admin/sales/opportunities/{opportunityId}/close": {
+    "outcome": "text",
+    "reason": "textarea",
+    "contractId": "text"
+  },
+  "POST /api/admin/sales/opportunities/{opportunityId}/stage": {
+    "stageCode": "text",
+    "note": "textarea"
+  },
+  "POST /api/admin/sales/opportunities/{opportunityId}/quotes/{quoteId}/file": {},
+  "PATCH /api/admin/sales/opportunities/{opportunityId}": {
+    "title": "text",
+    "organizationId": "text",
+    "prospectName": "text",
+    "contactName": "text",
+    "contactPhone": "text",
+    "contactEmail": "text",
+    "ownerUserId": "text",
+    "expectedMonthlyFeeKrw": "number",
+    "expectedAmountKrw": "number",
+    "nextFollowUpAt": "datetime-local",
+    "memo": "textarea"
+  },
+  "POST /api/admin/sales/opportunities/{opportunityId}/quotes": {
+    "amountKrw": "number",
+    "monthlyFeeKrw": "number",
+    "conditions": "textarea",
+    "validUntil": "date"
+  },
+  "POST /api/admin/sales/opportunities": {
+    "title": "text",
+    "organizationId": "text",
+    "prospectName": "text",
+    "contactName": "text",
+    "contactPhone": "text",
+    "contactEmail": "text",
+    "stageCode": "text",
+    "ownerUserId": "text",
+    "expectedMonthlyFeeKrw": "number",
+    "expectedAmountKrw": "number",
+    "nextFollowUpAt": "datetime-local",
+    "memo": "textarea"
+  },
+  "POST /api/admin/orders": {
+    "organizationId": "text",
+    "orderDate": "date",
+    "description": "text",
+    "amountKrw": "number",
+    "creditAmount": "number",
+    "requestId": "text"
+  },
+  "POST /api/admin/orders/{orderId}/receipt": {},
+  "PATCH /api/admin/orders/{orderId}": {
+    "paidAt": "datetime-local",
+    "invoiceStatus": "text"
+  }
+}
