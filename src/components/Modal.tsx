@@ -1,4 +1,6 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
+
+const dialogs: HTMLElement[] = []
 
 export function Modal({
   title,
@@ -7,6 +9,7 @@ export function Modal({
   footer,
   children,
   width = 460,
+  layer = 40,
 }: {
   title: string
   open: boolean
@@ -14,15 +17,57 @@ export function Modal({
   footer?: ReactNode
   children: ReactNode
   width?: number
+  layer?: number
 }) {
+  const dialog = useRef<HTMLDivElement>(null)
+  const close = useRef(onClose)
+  close.current = onClose
   useEffect(() => {
-    if (!open) return
+    if (!open || !dialog.current) return
+    const element = dialog.current
+    const previous = document.activeElement as HTMLElement | null
+    dialogs.push(element)
+    const focusable = () =>
+      Array.from(
+        element.querySelectorAll<HTMLElement>(
+          'button:not(:disabled),input:not(:disabled),textarea:not(:disabled),select:not(:disabled),a[href],[tabindex="0"]',
+        ),
+      )
+    ;(focusable()[0] ?? element).focus()
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+      if (dialogs[dialogs.length - 1] !== element) return
+      if (event.key === 'Escape') close.current()
+      if (event.key === 'Tab') {
+        const items = focusable()
+        const first = items[0],
+          last = items[items.length - 1]
+        if (!first) {
+          event.preventDefault()
+          element.focus()
+          return
+        }
+        if (
+          event.shiftKey &&
+          (document.activeElement === first || !element.contains(document.activeElement))
+        ) {
+          event.preventDefault()
+          last?.focus()
+        } else if (
+          !event.shiftKey &&
+          (document.activeElement === last || !element.contains(document.activeElement))
+        ) {
+          event.preventDefault()
+          first.focus()
+        }
+      }
     }
     window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [open, onClose])
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      dialogs.splice(dialogs.indexOf(element), 1)
+      if (previous?.isConnected) previous.focus()
+    }
+  }, [open])
 
   if (!open) return null
 
@@ -38,11 +83,13 @@ export function Modal({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 24,
-        zIndex: 40,
+        zIndex: layer,
       }}
     >
       <div
         role="dialog"
+        ref={dialog}
+        tabIndex={-1}
         aria-modal
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
@@ -60,7 +107,24 @@ export function Modal({
           gap: 16,
         }}
       >
-        <h2 className="card__title">{title}</h2>
+        <header
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 16,
+          }}
+        >
+          <h2 className="card__title">{title}</h2>
+          <button
+            type="button"
+            className="btn btn--sm"
+            aria-label="대화상자 닫기"
+            onClick={onClose}
+          >
+            ×
+          </button>
+        </header>
         {children}
         {footer && <div className="form__footer">{footer}</div>}
       </div>

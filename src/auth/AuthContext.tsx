@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/api'
 import { setUnauthorizedHandler } from '@/api/http/client'
 import type { LoginInput, Session } from '@/api/types'
+import { setStoredSession } from '@/api/http/session'
 
 export const SESSION_QUERY_KEY = ['session'] as const
 
@@ -13,6 +14,7 @@ interface AuthValue {
   login: (input: LoginInput) => Promise<Session>
   logout: () => Promise<void>
   loggingIn: boolean
+  completeLogin: (session: Session) => void
 }
 
 const AuthContext = createContext<AuthValue | null>(null)
@@ -38,6 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // 재발급까지 실패하면(만료·잠금) 캐시를 비웁니다. RequireRole 이 로그인 화면으로 보냅니다.
   useEffect(() => {
     setUnauthorizedHandler(() => {
+      qc.clear()
       qc.setQueryData(SESSION_QUERY_KEY, null)
     })
     return () => setUnauthorizedHandler(null)
@@ -66,6 +69,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     login: (input) => loginMutation.mutateAsync(input),
     logout: () => logoutMutation.mutateAsync(),
     loggingIn: loginMutation.isPending,
+    completeLogin: (next) => {
+      setStoredSession(next)
+      qc.clear()
+      qc.setQueryData(SESSION_QUERY_KEY, next)
+    },
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

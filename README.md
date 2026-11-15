@@ -1,10 +1,25 @@
-# 세모점 관리자 페이지
+# 세모점 운영 백오피스 · 비즈니스 인사이트
+
+2026-11-15 최종보고서와 V3-1 API에 맞춰 운영 홈, 계약·청구·크레딧·공식 메일·영업·릴리즈·장애·데이터셋·보안 화면 및 6개 인사이트 화면을 추가했습니다.
+
+[화면별 구현 범위, 데이터 기준, 남은 서버 작업, 배포 방법](docs/report-implementation.md)을 참고하세요.
+
+```bash
+npm ci             # Node 22.12 이상
+npm run dev        # 예시 계정 admin01 / admin1234
+npm run check      # 타입 검사 + 테스트 + 운영 빌드
+npm run build:demo # 조회 전용 예시 빌드
+```
+
+운영 빌드는 HTTP 연결, 로컬 개발은 예시 모드가 기본입니다. 새 백오피스의 예시 데이터에서는 변경과 메일 발송을 실행하지 않습니다. `/admin/home`에서 시작하며 백오피스/인사이트를 전환합니다.
+
+## 기존 서비스 화면
 
 Figma **Semojum** 파일의 `AD-T1-0` ~ `AD-T1-11` (**T1 운영자 콘솔**)과 `V3-06` (**T2 기관 관리**) 화면입니다.
 API 는 Notion **[V3] API 명세서**(2026-08-19 판)의 `/api/admin/**` · `/api/org/**` 구간에 맞춰 붙였습니다.
 T3 사용량(점역사 화면)은 이번 범위에서 제외했습니다.
 
-기본값은 **목업 데이터**입니다. `.env` 한 줄만 바꾸면 실제 서버로 붙습니다.
+로컬 개발은 **목업 데이터**입니다. `.env.production`은 실제 API 연결을 사용합니다.
 
 ## 실행
 
@@ -17,33 +32,33 @@ npm run typecheck
 
 `.env.example` 을 `.env` 로 복사해 동작을 바꿉니다.
 
-| 변수 | 값 |
-| --- | --- |
-| `VITE_API_SOURCE` | `mock`(기본) · `http` |
+| 변수                | 값                                                                                       |
+| ------------------- | ---------------------------------------------------------------------------------------- |
+| `VITE_API_SOURCE`   | `mock`(개발 기본) · `http`(운영 기본)                                                    |
 | `VITE_API_BASE_URL` | `http` 일 때 붙을 호스트. 운영 `https://api.semojum.app`, 로컬은 비우고 vite 프록시 사용 |
-| `VITE_MOCK_LATENCY` | 목업 응답 지연(ms) |
+| `VITE_MOCK_LATENCY` | 목업 응답 지연(ms)                                                                       |
 
 경로는 명세 그대로 `/api/...` 를 씁니다. `VITE_API_BASE_URL` 에는 **호스트만** 적습니다.
 
 ## 화면
 
-| 경로 | 화면 | 주 API |
-| --- | --- | --- |
-| `/login` | AD-T1-0 로그인 (ROLE_ADMIN 전용) | `POST /api/auth/login` |
-| `/org/login` | 서비스 앱 로그인 | 같은 API |
-| `/admin/stats` | AD-T1-1 통계 | `GET /api/admin/stats/overview` |
-| `/admin/stats/detail` | AD-T1-2 상세 통계 | `stats/workload` · `layout-cost` · `profitability` |
-| `/admin/monitoring` | AD-T1-3 실시간 모니터링 | `GET /api/admin/jobs` (10초 폴링) |
-| `/admin/jobs/:jobId` | AD-T1-4 작업 상세 · **새 창** | `GET /api/admin/jobs/{jobId}` |
-| `/admin/jobs/:jobId/preview` | AD-T1-5 변환 결과 미리보기 · **새 창** | `jobs/{id}/pages/{pageNo}` · `send-to-mypage` |
-| `/admin/orgs` | AD-T1-6 기관 · 계정 | `GET /api/admin/orgs` |
-| `/admin/orgs/:orgId` | AD-T1-7 기관 정보 · **새 창** | `orgs/{id}` · `orders` · `coupons` |
-| `/admin/accounts/:loginId` | AD-T1-8 계정 정보 · **새 창** · 조회 전용 | 전용 API 없음 (아래 참고) |
-| `/admin/inquiries` | AD-T1-9 문의 | `GET·PATCH /api/admin/inquiries` |
-| `/admin/notices` | AD-T1-10 공지 | `GET·POST /api/admin/notices` |
-| `/admin/analysis` | AD-T1-11 ANALYSIS | 빈 화면 |
-| `/org` | T2 기관 관리 | `org/dashboard` · `accounts` · `requests` · `notices` · `orders` |
-| `/org/accounts/:loginId` | T2-2 계정 상세 · **새 창** | `org/accounts/{loginId}/jobs` |
+| 경로                         | 화면                                      | 주 API                                                           |
+| ---------------------------- | ----------------------------------------- | ---------------------------------------------------------------- |
+| `/login`                     | AD-T1-0 로그인 (ROLE_ADMIN 전용)          | `POST /api/auth/login`                                           |
+| `/org/login`                 | 서비스 앱 로그인                          | 같은 API                                                         |
+| `/admin/stats`               | AD-T1-1 통계                              | `GET /api/admin/stats/overview`                                  |
+| `/admin/stats/detail`        | AD-T1-2 상세 통계                         | `stats/workload` · `layout-cost` · `profitability`               |
+| `/admin/monitoring`          | AD-T1-3 실시간 모니터링                   | `GET /api/admin/jobs` (10초 폴링)                                |
+| `/admin/jobs/:jobId`         | AD-T1-4 작업 상세 · **새 창**             | `GET /api/admin/jobs/{jobId}`                                    |
+| `/admin/jobs/:jobId/preview` | AD-T1-5 변환 결과 미리보기 · **새 창**    | `jobs/{id}/pages/{pageNo}` · `send-to-mypage`                    |
+| `/admin/orgs`                | AD-T1-6 기관 · 계정                       | `GET /api/admin/orgs`                                            |
+| `/admin/orgs/:orgId`         | AD-T1-7 기관 정보 · **새 창**             | `orgs/{id}` · `orders` · `coupons`                               |
+| `/admin/accounts/:loginId`   | AD-T1-8 계정 정보 · **새 창** · 조회 전용 | 전용 API 없음 (아래 참고)                                        |
+| `/admin/inquiries`           | AD-T1-9 문의                              | `GET·PATCH /api/admin/inquiries`                                 |
+| `/admin/notices`             | AD-T1-10 공지                             | `GET·POST /api/admin/notices`                                    |
+| `/admin/analysis`            | 비즈니스 인사이트로 이동                  | `/api/admin/insights/**`                                         |
+| `/org`                       | T2 기관 관리                              | `org/dashboard` · `accounts` · `requests` · `notices` · `orders` |
+| `/org/accounts/:loginId`     | T2-2 계정 상세 · **새 창**                | `org/accounts/{loginId}/jobs`                                    |
 
 작업 상세·결과 미리보기·기관 정보·계정 정보는 `window.open` 으로 새 창에 띄웁니다.
 목록을 잃지 않고 여러 건을 비교하기 위해서입니다.
@@ -56,24 +71,24 @@ npm run typecheck
 
 명세 §로그인: **로그인 API 는 하나**(`POST /api/auth/login`)이고, **응답 `role` 로 화면이 갈립니다.**
 
-| 진입점 | 로그인 화면 | 들이는 역할 | 로그인 뒤 |
-| --- | --- | --- | --- |
-| `admin.semo-jum.com` | `/login` | `ROLE_ADMIN` | T1-1 통계 |
-| `semo-jum.com` | `/org/login` | `ROLE_ORG_ADMIN` | T2 기관 관리 |
-| | | `ROLE_USER` | T3 사용량 — 이번 범위에 없어 안내만 |
+| 진입점               | 로그인 화면  | 들이는 역할            | 로그인 뒤                           |
+| -------------------- | ------------ | ---------------------- | ----------------------------------- |
+| `admin.semo-jum.com` | `/login`     | `ROLE_ADMIN` · WEB MFA | 운영 홈                             |
+| `semo-jum.com`       | `/org/login` | `ROLE_ORG_ADMIN`       | T2 기관 관리                        |
+|                      |              | `ROLE_USER`            | T3 사용량 — 이번 범위에 없어 안내만 |
 
 - 다른 역할이 들어오면 화면이 안내하고 막습니다. **화면 차단은 편의일 뿐, 서버도 같이 막습니다** —
   `/api/admin/**` 는 무토큰 401 · 비ADMIN 토큰 403(`COMMON4003`). `X-Admin-Key` 는 2026-08-19 폐기.
 - 오류 문구는 명세 코드로 고릅니다 — `AUTH4001` 아이디/비밀번호, `AUTH4004` 비활성 계정.
   아이디가 없는 건지 비밀번호가 틀린 건지는 구분해 알려주지 않습니다.
 - **세션 조회 API 가 없습니다.** 로그인 응답(액세스 1시간 · 리프레시 12시간)을 `localStorage` 에 두고,
-  앱이 켜질 때 `POST /api/auth/refresh` 로 살아 있는지 확인해 세션을 복구합니다 (`src/api/http/session.ts`).
+  앱 시작 시 저장 세션을 읽고 API의 401 응답에서 재발급합니다 (`src/api/http/session.ts`).
 - 401 을 받으면 재발급을 **한 번만** 시도하고 그대로 재요청합니다. 재발급도 실패하면 세션을 비우고
   로그인 화면으로 되돌립니다 (`setUnauthorizedHandler`). 잠금(`INACTIVE`)은 활성 세션을 즉시 끊습니다.
 
 ## 구조
 
-화면은 `src/api/index.ts` 가 내보내는 `api` 객체 **하나만** 봅니다.
+기존 화면은 `src/api/index.ts`의 `api`를 사용하고, 새 운영·인사이트 화면은 `src/api/backoffice/`를 통해 같은 인증 전송 계층을 사용합니다.
 
 ```
 src/api/
@@ -100,18 +115,18 @@ src/api/
 
 명세에 "FE 계산"으로 못박힌 것들입니다. 전부 `src/lib/format.ts` 에 모여 있습니다.
 
-| 값 | 계산 |
-| --- | --- |
-| 작업 소요 | `finishedAt − startedAt` (안 끝났으면 `—`) |
-| 막대 위 합계(T1-2) | `completed + failedOrCanceled` |
-| 처리 쪽수 증감률 | `pagesProcessed` vs `prevPagesProcessed` |
-| 이번 주 원가 증감률 | `thisWeekTotalKrw` vs `lastWeekDailyAvgKrw × 7` |
-| 문의 경과(2일 SLA) | `createdAt` 기준. 답변 완료면 `statusChangedAt` 까지 걸린 시간 |
-| 크레딧 사용률 · 색 | `used / allocated` · 50% 미만 초록 · 50~80% 주황 · 80% 이상 빨강 |
-| 계약 D-day · 소진 예상 | 만료일 − 오늘 · 최근 석 달 평균 사용량으로 어림 |
-| "오늘 09:12" · "어제" | `lastLoginAt` 을 오늘 기준으로 다듬음 |
-| 쪽별 결과 묶음 "1~7", "11 · 13" | 서버는 쪽 단위로 줍니다. 같은 유형·같은 사유끼리 묶어 표기 |
-| CSV | 화면에 걸린 필터 그대로, UTF-8 BOM (`src/lib/csv.ts`) — **BE 엔드포인트 없음** |
+| 값                              | 계산                                                                           |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| 작업 소요                       | `finishedAt − startedAt` (안 끝났으면 `—`)                                     |
+| 막대 위 합계(T1-2)              | `completed + failedOrCanceled`                                                 |
+| 처리 쪽수 증감률                | `pagesProcessed` vs `prevPagesProcessed`                                       |
+| 이번 주 원가 증감률             | `thisWeekTotalKrw` vs `lastWeekDailyAvgKrw × 7`                                |
+| 문의 경과(2일 SLA)              | `createdAt` 기준. 답변 완료면 `statusChangedAt` 까지 걸린 시간                 |
+| 크레딧 사용률 · 색              | `used / allocated` · 50% 미만 초록 · 50~80% 주황 · 80% 이상 빨강               |
+| 계약 D-day · 소진 예상          | 만료일 − 오늘 · 최근 석 달 평균 사용량으로 어림                                |
+| "오늘 09:12" · "어제"           | `lastLoginAt` 을 오늘 기준으로 다듬음                                          |
+| 쪽별 결과 묶음 "1~7", "11 · 13" | 서버는 쪽 단위로 줍니다. 같은 유형·같은 사유끼리 묶어 표기                     |
+| CSV                             | 화면에 걸린 필터 그대로, UTF-8 BOM (`src/lib/csv.ts`) — **BE 엔드포인트 없음** |
 
 ## 명세와 어긋나 손질한 곳
 

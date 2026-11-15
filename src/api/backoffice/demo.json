@@ -1,0 +1,2179 @@
+{
+  "/api/admin/official-mail/threads/{threadId}": {
+    "thread": {
+      "id": "6b1f2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
+      "subject": "계약서 검토 요청",
+      "counterpartEmail": "partner@example.com",
+      "lastMessageAt": "2026-11-13T22:52:36Z",
+      "status": "OPEN",
+      "orgLinkStatus": "SUGGESTED",
+      "organization": {
+        "id": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+        "name": "가상 기관 A"
+      },
+      "assignee": null
+    },
+    "organizationCandidates": [
+      {
+        "id": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+        "name": "가상 기관 A"
+      }
+    ],
+    "messages": [
+      {
+        "id": "a1b2c3d4-e5f6-4789-8abc-def012345678",
+        "direction": "INBOUND",
+        "fromAddress": "partner@example.com",
+        "fromName": "김담당",
+        "toAddresses": "operations@example.com",
+        "ccAddresses": null,
+        "subject": "계약서 검토 요청",
+        "sentAt": "2026-11-13T22:52:36Z",
+        "bodyText": "안녕하세요. 첨부한 계약서 검토 부탁드립니다.",
+        "bodyHtml": "<p>안녕하세요. 첨부한 계약서 검토 부탁드립니다.</p><p><a href=\"https://example.invalid/demo-file rel=\"nofollow noopener noreferrer\">회사 소개</a></p>",
+        "attachments": [
+          {
+            "id": "c3d4e5f6-a7b8-4c9d-8e0f-1a2b3c4d5e6f",
+            "fileName": "계약서_초안.pdf",
+            "contentType": "application/pdf",
+            "sizeBytes": 182344,
+            "inline": false,
+            "stored": true,
+            "skippedReason": null
+          }
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "id": "9d8c7b6a-5f4e-4d3c-8b2a-1f0e9d8c7b6a",
+        "author": {
+          "id": "3e7a9c55-1b2d-4c8e-9f10-6a2b3c4d5e6f",
+          "loginId": "webadmin01"
+        },
+        "body": "법무 검토 후 회신 예정",
+        "createdAt": "2026-11-13T23:20:00Z"
+      }
+    ],
+    "organizationHistory": [
+      {
+        "action": "SUGGEST",
+        "fromOrganization": null,
+        "toOrganization": {
+          "id": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+          "name": "가상 기관 A"
+        },
+        "reason": null,
+        "actor": null,
+        "createdAt": "2026-11-13T23:14:59Z"
+      }
+    ],
+    "drafts": []
+  },
+  "/api/admin/datasets/records": [
+    {
+      "id": 6,
+      "datasetName": "점역 교정 쌍 A",
+      "asOf": "2026-11-10",
+      "cumulativeQuantity": 110,
+      "unit": "쌍",
+      "source": "점역사 검수본",
+      "correctionReason": "폐기분 반영",
+      "effective": true,
+      "recordedBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+      "createdAt": "2026-11-10T01:00:00Z"
+    },
+    {
+      "id": 5,
+      "datasetName": "점역 교정 쌍 A",
+      "asOf": "2026-10-31",
+      "cumulativeQuantity": 120,
+      "unit": "쌍",
+      "source": "점역사 검수본",
+      "correctionReason": "중복 집계 정정",
+      "effective": true,
+      "recordedBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+      "createdAt": "2026-11-02T01:00:00Z"
+    },
+    {
+      "id": 4,
+      "datasetName": "점역 교정 쌍 A",
+      "asOf": "2026-10-31",
+      "cumulativeQuantity": 180,
+      "unit": "쌍",
+      "source": "점역사 검수본",
+      "correctionReason": null,
+      "effective": false,
+      "recordedBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+      "createdAt": "2026-10-31T01:00:00Z"
+    }
+  ],
+  "/api/admin/datasets/monthly": {
+    "unit": "쌍",
+    "months": [
+      {
+        "month": "2026-09",
+        "cumulative": 150,
+        "delta": 150,
+        "byDataset": [
+          {
+            "datasetName": "점역 교정 쌍 A",
+            "cumulative": 100,
+            "delta": 100
+          },
+          {
+            "datasetName": "점역 교정 쌍 B",
+            "cumulative": 50,
+            "delta": 50
+          }
+        ]
+      },
+      {
+        "month": "2026-10",
+        "cumulative": 170,
+        "delta": 20,
+        "byDataset": [
+          {
+            "datasetName": "점역 교정 쌍 A",
+            "cumulative": 120,
+            "delta": 20
+          },
+          {
+            "datasetName": "점역 교정 쌍 B",
+            "cumulative": 50,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "month": "2026-11",
+        "cumulative": 160,
+        "delta": -10,
+        "byDataset": [
+          {
+            "datasetName": "점역 교정 쌍 A",
+            "cumulative": 110,
+            "delta": -10
+          },
+          {
+            "datasetName": "점역 교정 쌍 B",
+            "cumulative": 50,
+            "delta": 0
+          }
+        ]
+      }
+    ]
+  },
+  "/api/admin/official-mail/attachments/{attachmentId}/download-url": {
+    "url": "https://example.invalid/demo-file",
+    "expiresInSeconds": 300
+  },
+  "/api/admin/credit/users/{userId}/subscription": {
+    "subscriptionId": "5e6f7a8b-9c0d-4e1f-8a2b-3c4d5e6f7a8b",
+    "userId": "c3d4e5f6-0718-4293-a4b5-c6d7e8f90a1b",
+    "planCode": "BASIC",
+    "planName": "Basic",
+    "pendingPlanCode": "STANDARD",
+    "anchorOn": "2026-11-14",
+    "currentPeriodOn": "2026-11-14",
+    "nextGrantOn": "2026-12-14"
+  },
+  "/api/admin/billing/invoices": [
+    {
+      "id": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+      "invoiceNo": "INV-LOCAL00001-202611-01",
+      "version": 1,
+      "previousInvoiceId": null,
+      "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+      "organizationName": "가상 기관 A",
+      "contractId": "7cdf099d-cb89-4f5c-ad7a-11182786d68d",
+      "contractNo": "CT-LOCAL00001-202611-02",
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-11-30",
+      "status": "ISSUED",
+      "issueDate": "2026-11-14",
+      "dueDate": "2026-11-24",
+      "supplyAmount": 500000,
+      "vatAmount": 50000,
+      "totalAmount": 550000,
+      "allocatedAmount": 200000,
+      "outstandingAmount": 350000,
+      "collectionStatus": "BEFORE_DUE",
+      "daysOverdue": 0,
+      "agingBucket": "NOT_DUE",
+      "collectionAction": "NONE",
+      "graceUntil": null,
+      "createdAt": "2026-11-13T18:54:35.102233Z"
+    }
+  ],
+  "/api/admin/contracts/{contractId}/versions/{version}/signed-file": {
+    "fileName": "signed.pdf",
+    "url": "https://example.invalid/demo-file"
+  },
+  "/api/admin/official-mail/threads": {
+    "items": [
+      {
+        "id": "6b1f2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
+        "subject": "계약서 검토 요청",
+        "counterpartEmail": "partner@example.com",
+        "lastMessageAt": "2026-11-13T22:52:36Z",
+        "status": "OPEN",
+        "orgLinkStatus": "SUGGESTED",
+        "organization": {
+          "id": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+          "name": "가상 기관 A"
+        },
+        "assignee": {
+          "id": "3e7a9c55-1b2d-4c8e-9f10-6a2b3c4d5e6f",
+          "loginId": "webadmin01"
+        }
+      }
+    ],
+    "page": 0,
+    "size": 20,
+    "totalElements": 1,
+    "totalPages": 1
+  },
+  "/api/admin/secrets": [
+    {
+      "id": 3,
+      "name": "kakao-client-secret",
+      "environment": "PROD",
+      "purpose": "카카오 로그인",
+      "owner": "BE",
+      "reference": "/nuridot/prod/kakao/client-secret",
+      "expiresOn": "2026-11-24",
+      "rotatedOn": "2026-08-26",
+      "status": "ACTIVE",
+      "expiryState": "EXPIRING",
+      "daysUntilExpiry": 10,
+      "memo": null,
+      "createdBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+      "createdAt": "2026-08-26T00:00:00Z",
+      "updatedAt": "2026-08-26T00:00:00Z"
+    }
+  ],
+  "/api/admin/billing/payments/{paymentId}": {
+    "id": "c4a1e8f2-3b6d-4e9a-8c7f-2d1b0a9e8f76",
+    "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+    "organizationName": "가상 기관 A",
+    "receivedOn": "2026-11-14",
+    "amount": 600000,
+    "allocatedAmount": 200000,
+    "refundedAmount": 0,
+    "unallocatedAmount": 400000,
+    "payerName": "로컬테스트기관",
+    "method": "BANK_TRANSFER",
+    "memo": null,
+    "status": "VALID",
+    "voidReason": null,
+    "allocations": [
+      {
+        "id": "5b2e9d0c-7a41-4c3e-9f2b-1d8e6a4c3b20",
+        "paymentId": "c4a1e8f2-3b6d-4e9a-8c7f-2d1b0a9e8f76",
+        "invoiceId": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+        "invoiceNo": "INV-LOCAL00001-202611-01",
+        "invoiceVersion": 1,
+        "amount": 200000,
+        "status": "VALID",
+        "createdAt": "2026-11-13T18:54:36.004101Z",
+        "releasedAt": null
+      }
+    ],
+    "refunds": [],
+    "createdAt": "2026-11-13T18:54:36.004101Z"
+  },
+  "/api/admin/credit/plans": {
+    "items": [
+      {
+        "code": "FREE",
+        "name": "Free",
+        "monthlyCredit": 0,
+        "priceKrw": 0,
+        "features": {},
+        "active": true
+      },
+      {
+        "code": "BASIC",
+        "name": "Basic",
+        "monthlyCredit": 100,
+        "priceKrw": 18000,
+        "features": {},
+        "active": true
+      },
+      {
+        "code": "STANDARD",
+        "name": "Standard",
+        "monthlyCredit": 300,
+        "priceKrw": 50000,
+        "features": {},
+        "active": true
+      },
+      {
+        "code": "PREMIUM",
+        "name": "Premium",
+        "monthlyCredit": 2500,
+        "priceKrw": 297000,
+        "features": {},
+        "active": true
+      }
+    ]
+  },
+  "/api/admin/releases/preview": {
+    "id": 3,
+    "platform": "WINDOWS",
+    "channel": "STABLE",
+    "version": "1.2.0",
+    "build": "20261101.1",
+    "fileUrl": "https://example.invalid/demo-file",
+    "checksumSha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+    "signatureStatus": "VERIFIED",
+    "minSupportedVersion": "1.0.0",
+    "targetScope": "ALL",
+    "targetOrgIds": [],
+    "status": "PUBLISHED",
+    "displayStatus": "LIVE",
+    "noteStatus": "PUBLISHED",
+    "notes": {
+      "changes": "표 변환 개선",
+      "improvements": null,
+      "fixes": "저장 오류 수정",
+      "knownIssues": null,
+      "publicText": "표 변환 개선\n저장 오류 수정"
+    },
+    "noteApprovedBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+    "noteApprovedAt": "2026-11-01T00:50:00Z",
+    "memo": null,
+    "publishedAt": "2026-11-01T01:02:03.456Z",
+    "publishedBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+    "haltedAt": null,
+    "haltedBy": null,
+    "haltReason": null,
+    "createdBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+    "createdAt": "2026-11-01T00:30:00Z",
+    "updatedAt": "2026-11-01T01:02:03.456Z"
+  },
+  "/api/admin/billing/tax-invoices/{taxInvoiceId}/file": {
+    "fileName": "세금계산서_202611.pdf",
+    "url": "https://example.invalid/demo-file"
+  },
+  "/api/admin/billing/documents/{documentId}/download": {
+    "fileName": "INV-LOCAL00001-202611-01-v1.pdf",
+    "url": "https://example.invalid/demo-file"
+  },
+  "/api/admin/official-mail/sync-status": {
+    "enabled": true,
+    "authMode": "REFRESH_TOKEN",
+    "mailbox": "operations@example.com",
+    "historyKnown": true,
+    "lastSyncedAt": "2026-11-13T23:14:59.335665Z",
+    "lastFullSyncAt": "2026-11-13T23:14:59.335663Z",
+    "lastError": null,
+    "lastErrorAt": null,
+    "skippedMessageIds": []
+  },
+  "/api/admin/credit/wallets": {
+    "items": [
+      {
+        "walletId": "7d3f2a10-5c4b-4e8a-9b21-6f0d3c8e1a57",
+        "ownerType": "ORG",
+        "organizationId": "a1b20c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
+        "organizationName": "가상 점자도서관",
+        "userId": null,
+        "loginId": null,
+        "contractBalance": 2850,
+        "extraBalance": 97,
+        "validBalance": 2947,
+        "reserved": 10,
+        "available": 2937,
+        "lowBalance": false,
+        "legacyRemaining": 2947
+      },
+      {
+        "walletId": "9e8d7c6b-5a49-4382-a1b0-c9d8e7f6a5b4",
+        "ownerType": "USER",
+        "organizationId": null,
+        "organizationName": null,
+        "userId": "c3d4e5f6-0718-4293-a4b5-c6d7e8f90a1b",
+        "loginId": "personal01",
+        "contractBalance": 0,
+        "extraBalance": 110,
+        "validBalance": 110,
+        "reserved": 0,
+        "available": 110,
+        "lowBalance": false,
+        "legacyRemaining": null
+      }
+    ]
+  },
+  "/api/admin/billing/receivables": {
+    "asOf": "2026-11-14",
+    "totalOutstanding": 350000,
+    "outstandingByBucket": {
+      "NOT_DUE": 350000,
+      "FIRST": 0,
+      "SECOND": 0,
+      "THIRD": 0
+    },
+    "countByBucket": {
+      "NOT_DUE": 1,
+      "FIRST": 0,
+      "SECOND": 0,
+      "THIRD": 0
+    },
+    "invoices": [
+      {
+        "id": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+        "invoiceNo": "INV-LOCAL00001-202611-01",
+        "version": 1,
+        "previousInvoiceId": null,
+        "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+        "organizationName": "가상 기관 A",
+        "contractId": "7cdf099d-cb89-4f5c-ad7a-11182786d68d",
+        "contractNo": "CT-LOCAL00001-202611-02",
+        "periodStart": "2026-11-01",
+        "periodEnd": "2026-11-30",
+        "status": "ISSUED",
+        "issueDate": "2026-11-14",
+        "dueDate": "2026-11-24",
+        "supplyAmount": 500000,
+        "vatAmount": 50000,
+        "totalAmount": 550000,
+        "allocatedAmount": 200000,
+        "outstandingAmount": 350000,
+        "collectionStatus": "BEFORE_DUE",
+        "daysOverdue": 0,
+        "agingBucket": "NOT_DUE",
+        "collectionAction": "NONE",
+        "graceUntil": null,
+        "createdAt": "2026-11-13T18:54:35.102233Z"
+      }
+    ]
+  },
+  "/api/admin/incidents/{incidentId}": {
+    "id": 7,
+    "title": "변환 API 오류 증가",
+    "severity": "SEV1",
+    "status": "RESOLVED",
+    "assigneeUserId": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+    "sentryUrl": "https://example.invalid/demo-file",
+    "affectedJobCount": 12,
+    "relatedReleaseId": 3,
+    "affectedOrgIds": ["5b0c7a1e-7c55-4a8e-9d0a-2f3e1c9b8a77"],
+    "relatedInquiryIds": ["c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f"],
+    "startedAt": "2026-11-14T00:03:00Z",
+    "resolvedAt": "2026-11-14T00:40:00Z",
+    "createdBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+    "createdAt": "2026-11-14T00:05:00Z",
+    "updatedAt": "2026-11-14T00:40:00Z",
+    "notes": [
+      {
+        "id": 1,
+        "authorUserId": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+        "body": "워커 재시작",
+        "createdAt": "2026-11-14T00:20:00Z"
+      }
+    ]
+  },
+  "/api/admin/notifications/summary": {
+    "unread": 3,
+    "openCritical": 1
+  },
+  "/api/admin/secrets/{secretId}": {
+    "id": 3,
+    "name": "kakao-client-secret",
+    "environment": "PROD",
+    "purpose": "카카오 로그인",
+    "owner": "BE",
+    "reference": "/nuridot/prod/kakao/client-secret",
+    "expiresOn": "2026-11-24",
+    "rotatedOn": "2026-08-26",
+    "status": "ACTIVE",
+    "expiryState": "EXPIRING",
+    "daysUntilExpiry": 10,
+    "memo": null,
+    "createdBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+    "createdAt": "2026-08-26T00:00:00Z",
+    "updatedAt": "2026-08-26T00:00:00Z"
+  },
+  "/api/admin/contracts/expiring": [
+    {
+      "contract": {
+        "id": "7cdf099d-cb89-4f5c-ad7a-11182786d68d",
+        "contractNo": "CT-LOCAL00001-202611-02",
+        "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+        "organizationName": "가상 기관 A",
+        "status": "ACTIVE",
+        "currentVersion": 1,
+        "planType": "STANDARD",
+        "startDate": "2026-11-14",
+        "endDate": "2026-12-04",
+        "amountKrw": 6000000,
+        "monthlyFeeKrw": 500000,
+        "signedFileUploaded": true,
+        "renewedFromId": null,
+        "renewedByIds": ["a1f2c3d4-5e6f-4a7b-8c9d-0e1f2a3b4c5d"],
+        "activatedAt": "2026-11-13T18:54:34.553633Z",
+        "endedOn": null,
+        "endReason": null,
+        "createdAt": "2026-11-13T18:54:33.912418Z",
+        "updatedAt": "2026-11-13T18:54:34.553633Z"
+      },
+      "daysLeft": 20,
+      "renewalContractId": "a1f2c3d4-5e6f-4a7b-8c9d-0e1f2a3b4c5d",
+      "renewalStatus": "DRAFT"
+    }
+  ],
+  "/api/admin/contracts/{contractId}": {
+    "contract": {
+      "id": "7cdf099d-cb89-4f5c-ad7a-11182786d68d",
+      "contractNo": "CT-LOCAL00001-202611-02",
+      "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+      "organizationName": "가상 기관 A",
+      "status": "ACTIVE",
+      "currentVersion": 1,
+      "planType": "STANDARD",
+      "startDate": "2026-11-14",
+      "endDate": "2026-12-04",
+      "amountKrw": 6000000,
+      "monthlyFeeKrw": 500000,
+      "signedFileUploaded": true,
+      "renewedFromId": null,
+      "renewedByIds": [],
+      "activatedAt": "2026-11-13T18:54:34.553633Z",
+      "endedOn": null,
+      "endReason": null,
+      "createdAt": "2026-11-13T18:54:33.912418Z",
+      "updatedAt": "2026-11-13T18:54:34.553633Z"
+    },
+    "versions": [
+      {
+        "version": 1,
+        "planType": "STANDARD",
+        "startDate": "2026-11-14",
+        "endDate": "2026-12-04",
+        "amountKrw": 6000000,
+        "monthlyFeeKrw": 500000,
+        "terms": "월정액 500,000원(부가세 별도), 매월 10일 청구",
+        "partyName": "가상 기관 A(주)",
+        "partyBizNo": "111-22-33333",
+        "partyRepresentative": "예시 담당자",
+        "partyAddress": "예시 주소",
+        "partySignatory": "담당자 예시 서명자",
+        "ourSignatory": "누리닷 대표",
+        "changeNote": null,
+        "signedFileName": "signed.pdf",
+        "signedUploadedAt": "2026-11-13T18:54:34.120000Z",
+        "createdBy": "3e7a9c55-1b2d-4c8e-9f10-6a2b3c4d5e6f",
+        "createdAt": "2026-11-13T18:54:33.912418Z"
+      }
+    ]
+  },
+  "/api/admin/credit/reconciliation": {
+    "from": "2026-11-13T02:00:00Z",
+    "to": "2026-11-14T02:00:00Z",
+    "deductedPages": 412,
+    "capturedPages": 411,
+    "backfilledPages": 0,
+    "pageMismatches": [
+      {
+        "jobId": "job_ab12",
+        "pageNo": 4,
+        "deductedAmount": 3,
+        "capturedAmount": null,
+        "deductedSource": "CONTRACT",
+        "deductedCouponId": null,
+        "capturedLotKind": null,
+        "capturedLotRef": null,
+        "capturedSource": null
+      }
+    ],
+    "balanceMismatches": [
+      {
+        "organizationId": "a1b20c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
+        "organizationName": "가상 점자도서관",
+        "ledgerBalance": 2940,
+        "legacyRemaining": 2947
+      }
+    ],
+    "lotMismatches": [
+      {
+        "lotId": "0b1c2d3e-4f5a-4b6c-8d7e-9f0a1b2c3d4e",
+        "walletId": "7d3f2a10-5c4b-4e8a-9b21-6f0d3c8e1a57",
+        "kind": "COUPON",
+        "balance": 97,
+        "entrySum": 95
+      }
+    ],
+    "heldReservations": 3
+  },
+  "/api/admin/credit/wallets/{walletId}/ledger": {
+    "walletId": "7d3f2a10-5c4b-4e8a-9b21-6f0d3c8e1a57",
+    "items": [
+      {
+        "entryId": 1203,
+        "entryType": "CAPTURE",
+        "source": "CONVERSION",
+        "sourceRef": null,
+        "lotKind": "MAIN",
+        "balanceDelta": -3,
+        "reservedDelta": -5,
+        "balanceBefore": 2950,
+        "balanceAfter": 2947,
+        "reservedAfter": 10,
+        "validUntil": null,
+        "actor": "SYSTEM",
+        "reason": null,
+        "jobId": "job_ab12",
+        "pageNo": 4,
+        "createdAt": "2026-11-14T02:10:03.120Z"
+      },
+      {
+        "entryId": 1201,
+        "entryType": "RESERVE",
+        "source": "CONVERSION",
+        "sourceRef": null,
+        "lotKind": null,
+        "balanceDelta": 0,
+        "reservedDelta": 5,
+        "balanceBefore": 2950,
+        "balanceAfter": 2950,
+        "reservedAfter": 15,
+        "validUntil": null,
+        "actor": "SYSTEM",
+        "reason": null,
+        "jobId": "job_ab12",
+        "pageNo": 4,
+        "createdAt": "2026-11-14T02:09:31.004Z"
+      }
+    ],
+    "page": 0,
+    "size": 2,
+    "totalElements": 152
+  },
+  "/api/admin/credit/wallets/{walletId}": {
+    "walletId": "7d3f2a10-5c4b-4e8a-9b21-6f0d3c8e1a57",
+    "ownerType": "ORG",
+    "organizationId": "a1b20c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
+    "organizationName": null,
+    "userId": null,
+    "loginId": null,
+    "contractBalance": 2850,
+    "extraBalance": 97,
+    "validBalance": 2947,
+    "reserved": 10,
+    "available": 2937,
+    "lowBalance": false,
+    "legacyRemaining": null
+  },
+  "/api/admin/audit-logs": {
+    "items": [
+      {
+        "id": 128,
+        "occurredAt": "2026-11-14T05:21:03.512Z",
+        "actorUserId": "5b1d6c0e-3f7a-4c2e-9a41-2d8f0c7e6b13",
+        "actorLoginId": "webadmin01",
+        "action": "ACCOUNT_LOCK",
+        "targetType": "ACCOUNT",
+        "targetId": "kblib03",
+        "before": {
+          "status": "ACTIVE"
+        },
+        "after": {
+          "status": "INACTIVE"
+        },
+        "httpMethod": "PATCH",
+        "requestPath": "/api/admin/accounts/kblib03/status",
+        "requestId": "req-3fa91c07",
+        "clientIp": "203.0.113.7",
+        "success": true,
+        "httpStatus": 200,
+        "errorCode": null
+      },
+      {
+        "id": 127,
+        "occurredAt": "2026-11-14T05:20:41.008Z",
+        "actorUserId": "5b1d6c0e-3f7a-4c2e-9a41-2d8f0c7e6b13",
+        "actorLoginId": "webadmin01",
+        "action": "ACCOUNT_STATUS",
+        "targetType": "ACCOUNT",
+        "targetId": "kblib99",
+        "before": null,
+        "after": null,
+        "httpMethod": "PATCH",
+        "requestPath": "/api/admin/accounts/kblib99/status",
+        "requestId": "req-07c2be4d",
+        "clientIp": "203.0.113.7",
+        "success": false,
+        "httpStatus": 404,
+        "errorCode": "USER4001"
+      }
+    ],
+    "page": 0,
+    "size": 50,
+    "totalElements": 2,
+    "totalPages": 1
+  },
+  "/api/admin/contracts": [
+    {
+      "id": "7cdf099d-cb89-4f5c-ad7a-11182786d68d",
+      "contractNo": "CT-LOCAL00001-202611-02",
+      "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+      "organizationName": "가상 기관 A",
+      "status": "ACTIVE",
+      "currentVersion": 1,
+      "planType": "STANDARD",
+      "startDate": "2026-11-14",
+      "endDate": "2026-12-04",
+      "amountKrw": 6000000,
+      "monthlyFeeKrw": 500000,
+      "signedFileUploaded": true,
+      "renewedFromId": null,
+      "renewedByIds": [],
+      "activatedAt": "2026-11-13T18:54:34.553633Z",
+      "endedOn": null,
+      "endReason": null,
+      "createdAt": "2026-11-13T18:54:33.912418Z",
+      "updatedAt": "2026-11-13T18:54:34.553633Z"
+    }
+  ],
+  "/api/admin/official-mail/drafts": [
+    {
+      "id": "f44428f7-e7be-42b8-b2b4-5b20a5803c41",
+      "threadId": "6b1f2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
+      "replyToMessageId": "a1b2c3d4-e5f6-4789-8abc-def012345678",
+      "toAddresses": "partner@example.com",
+      "ccAddresses": null,
+      "bccAddresses": null,
+      "subject": "Re: 계약서 검토 요청",
+      "bodyText": "안녕하세요, 누리닷입니다.\n검토 의견 보내드립니다.",
+      "status": "DRAFT",
+      "failureReason": null,
+      "createdBy": {
+        "id": "3e7a9c55-1b2d-4c8e-9f10-6a2b3c4d5e6f",
+        "loginId": "webadmin01"
+      },
+      "confirmedBy": null,
+      "confirmedAt": null,
+      "sentBy": null,
+      "sendRequestedAt": null,
+      "providerAcceptedAt": null,
+      "lastCheckedAt": null,
+      "createdAt": "2026-11-13T23:16:01.204512Z",
+      "updatedAt": "2026-11-13T23:16:01.204512Z"
+    }
+  ],
+  "/api/admin/billing/payments": [
+    {
+      "id": "c4a1e8f2-3b6d-4e9a-8c7f-2d1b0a9e8f76",
+      "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+      "organizationName": "가상 기관 A",
+      "receivedOn": "2026-11-14",
+      "amount": 600000,
+      "allocatedAmount": 200000,
+      "refundedAmount": 100000,
+      "unallocatedAmount": 300000,
+      "payerName": "로컬테스트기관",
+      "method": "BANK_TRANSFER",
+      "memo": null,
+      "status": "VALID",
+      "voidReason": null,
+      "allocations": [
+        {
+          "id": "5b2e9d0c-7a41-4c3e-9f2b-1d8e6a4c3b20",
+          "paymentId": "c4a1e8f2-3b6d-4e9a-8c7f-2d1b0a9e8f76",
+          "invoiceId": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+          "invoiceNo": "INV-LOCAL00001-202611-01",
+          "invoiceVersion": 1,
+          "amount": 200000,
+          "status": "VALID",
+          "createdAt": "2026-11-13T18:54:36.004101Z",
+          "releasedAt": null
+        }
+      ],
+      "refunds": [
+        {
+          "id": "d3c2b1a0-9f8e-4d7c-6b5a-4f3e2d1c0b9a",
+          "amount": 100000,
+          "refundedOn": "2026-11-15",
+          "reason": "과입금 반환",
+          "createdAt": "2026-11-15T01:00:00.000000Z"
+        }
+      ],
+      "createdAt": "2026-11-13T18:54:36.004101Z"
+    }
+  ],
+  "/api/admin/datasets": {
+    "datasets": [
+      {
+        "datasetName": "점역 교정 쌍 A",
+        "unit": "쌍",
+        "latestQuantity": 110,
+        "asOf": "2026-11-10",
+        "source": "점역사 검수본",
+        "recordedBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+        "recordedAt": "2026-11-10T01:00:00Z"
+      },
+      {
+        "datasetName": "점역 교정 쌍 B",
+        "unit": "쌍",
+        "latestQuantity": 50,
+        "asOf": "2026-09-15",
+        "source": "기관 제공",
+        "recordedBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+        "recordedAt": "2026-09-15T01:00:00Z"
+      }
+    ],
+    "totals": [
+      {
+        "unit": "쌍",
+        "total": 160,
+        "lastAsOf": "2026-11-10"
+      }
+    ]
+  },
+  "/api/admin/notifications": {
+    "items": [
+      {
+        "id": 12,
+        "kind": "SECRET_EXPIRY",
+        "severity": "WARNING",
+        "sourceRef": "secret:3",
+        "targetRef": "secret:3",
+        "title": "시크릿 만료 임박: kakao-client-secret (PROD)",
+        "body": "만료일 2026-11-24 · D-10 · 담당 BE",
+        "link": "/secrets/3",
+        "occurrenceCount": 2,
+        "firstOccurredAt": "2026-11-13T00:00:00Z",
+        "lastOccurredAt": "2026-11-14T00:00:00Z",
+        "read": false,
+        "acknowledged": false,
+        "acknowledgedAt": null,
+        "acknowledgedBy": null,
+        "acknowledgeMemo": null
+      }
+    ],
+    "totalCount": 1,
+    "page": 0,
+    "size": 20
+  },
+  "/api/admin/releases/{releaseId}": {
+    "id": 3,
+    "platform": "WINDOWS",
+    "channel": "STABLE",
+    "version": "1.2.0",
+    "build": "20261101.1",
+    "fileUrl": "https://example.invalid/demo-file",
+    "checksumSha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+    "signatureStatus": "VERIFIED",
+    "minSupportedVersion": "1.0.0",
+    "targetScope": "ALL",
+    "targetOrgIds": [],
+    "status": "PUBLISHED",
+    "displayStatus": "LIVE",
+    "noteStatus": "PUBLISHED",
+    "notes": {
+      "changes": "표 변환 개선",
+      "improvements": null,
+      "fixes": "저장 오류 수정",
+      "knownIssues": null,
+      "publicText": "표 변환 개선\n저장 오류 수정"
+    },
+    "noteApprovedBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+    "noteApprovedAt": "2026-11-01T00:50:00Z",
+    "memo": null,
+    "publishedAt": "2026-11-01T01:02:03.456Z",
+    "publishedBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+    "haltedAt": null,
+    "haltedBy": null,
+    "haltReason": null,
+    "createdBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+    "createdAt": "2026-11-01T00:30:00Z",
+    "updatedAt": "2026-11-01T01:02:03.456Z"
+  },
+  "/api/admin/official-mail/drafts/{draftId}": {
+    "id": "f44428f7-e7be-42b8-b2b4-5b20a5803c41",
+    "threadId": "6b1f2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
+    "replyToMessageId": "a1b2c3d4-e5f6-4789-8abc-def012345678",
+    "toAddresses": "partner@example.com",
+    "ccAddresses": null,
+    "bccAddresses": null,
+    "subject": "Re: 계약서 검토 요청",
+    "bodyText": "안녕하세요, 누리닷입니다.\n검토 의견 보내드립니다.",
+    "status": "PROVIDER_ACCEPTED",
+    "failureReason": null,
+    "createdBy": {
+      "id": "3e7a9c55-1b2d-4c8e-9f10-6a2b3c4d5e6f",
+      "loginId": "webadmin01"
+    },
+    "confirmedBy": {
+      "id": "3e7a9c55-1b2d-4c8e-9f10-6a2b3c4d5e6f",
+      "loginId": "webadmin01"
+    },
+    "confirmedAt": "2026-11-13T23:16:15.102233Z",
+    "sentBy": {
+      "id": "3e7a9c55-1b2d-4c8e-9f10-6a2b3c4d5e6f",
+      "loginId": "webadmin01"
+    },
+    "sendRequestedAt": "2026-11-13T23:16:22.871030Z",
+    "providerAcceptedAt": "2026-11-13T23:16:23.496205Z",
+    "lastCheckedAt": null,
+    "createdAt": "2026-11-13T23:16:01.204512Z",
+    "updatedAt": "2026-11-13T23:16:23.496205Z"
+  },
+  "/api/admin/incidents": {
+    "items": [
+      {
+        "id": 7,
+        "title": "변환 API 오류 증가",
+        "severity": "SEV1",
+        "status": "INVESTIGATING",
+        "assigneeUserId": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+        "affectedJobCount": 12,
+        "startedAt": "2026-11-14T00:03:00Z",
+        "resolvedAt": null
+      }
+    ],
+    "totalCount": 1,
+    "page": 0,
+    "size": 20
+  },
+  "/api/admin/billing/tax-invoices": [
+    {
+      "id": "fec55dc9-bec1-497b-984c-e78eadf74743",
+      "invoiceId": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+      "invoiceNo": "INV-LOCAL00001-202611-01",
+      "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+      "approvalNo": "20261114-41000000-12345678",
+      "issueDate": "2026-11-14",
+      "supplyAmount": 500000,
+      "vatAmount": 50000,
+      "status": "ISSUED",
+      "fileName": "세금계산서_202611.pdf",
+      "memo": null,
+      "cancelReason": null,
+      "createdAt": "2026-11-13T18:54:38.000000Z"
+    }
+  ],
+  "/api/admin/billing/invoices/{invoiceId}": {
+    "invoice": {
+      "id": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+      "invoiceNo": "INV-LOCAL00001-202611-01",
+      "version": 1,
+      "previousInvoiceId": null,
+      "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+      "organizationName": "가상 기관 A",
+      "contractId": "7cdf099d-cb89-4f5c-ad7a-11182786d68d",
+      "contractNo": "CT-LOCAL00001-202611-02",
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-11-30",
+      "status": "ISSUED",
+      "issueDate": "2026-11-14",
+      "dueDate": "2026-11-24",
+      "supplyAmount": 500000,
+      "vatAmount": 50000,
+      "totalAmount": 550000,
+      "allocatedAmount": 200000,
+      "outstandingAmount": 350000,
+      "collectionStatus": "BEFORE_DUE",
+      "daysOverdue": 0,
+      "agingBucket": "NOT_DUE",
+      "collectionAction": "NONE",
+      "graceUntil": null,
+      "createdAt": "2026-11-13T18:54:35.102233Z"
+    },
+    "note": "11월분",
+    "cancelReason": null,
+    "cancelledAt": null,
+    "items": [
+      {
+        "lineNo": 1,
+        "itemType": "MONTHLY_FEE",
+        "description": "월정액 (CT-LOCAL00001-202611-02)",
+        "quantity": 1,
+        "unitPrice": 500000,
+        "supplyAmount": 500000,
+        "vatAmount": 50000,
+        "orderId": null
+      }
+    ],
+    "allocations": [
+      {
+        "id": "5b2e9d0c-7a41-4c3e-9f2b-1d8e6a4c3b20",
+        "paymentId": "c4a1e8f2-3b6d-4e9a-8c7f-2d1b0a9e8f76",
+        "invoiceId": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+        "invoiceNo": "INV-LOCAL00001-202611-01",
+        "invoiceVersion": 1,
+        "amount": 200000,
+        "status": "VALID",
+        "createdAt": "2026-11-13T18:54:36.004101Z",
+        "releasedAt": null
+      }
+    ],
+    "collectionEvents": [
+      {
+        "id": "e1d2c3b4-a5f6-4e7d-8c9b-0a1f2e3d4c5b",
+        "invoiceId": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+        "type": "CONTACT",
+        "note": "담당자에게 전화 — 이번 주 입금 예정",
+        "untilDate": null,
+        "createdBy": "3e7a9c55-1b2d-4c8e-9f10-6a2b3c4d5e6f",
+        "createdAt": "2026-11-25T01:10:00.000000Z"
+      }
+    ],
+    "documents": [
+      {
+        "id": "9a8b7c6d-5e4f-4a3b-2c1d-0e9f8a7b6c5d",
+        "invoiceId": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+        "docType": "INVOICE",
+        "documentNo": "INV-LOCAL00001-202611-01-v1",
+        "version": 1,
+        "previousDocumentId": null,
+        "fileSize": 48213,
+        "sha256": "3f5a0c2e9b8d7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f",
+        "sharedWithOrg": true,
+        "sharedAt": "2026-11-13T18:54:37.500000Z",
+        "createdAt": "2026-11-13T18:54:37.100000Z"
+      }
+    ],
+    "taxInvoices": [
+      {
+        "id": "fec55dc9-bec1-497b-984c-e78eadf74743",
+        "invoiceId": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+        "invoiceNo": "INV-LOCAL00001-202611-01",
+        "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+        "approvalNo": "20261114-41000000-12345678",
+        "issueDate": "2026-11-14",
+        "supplyAmount": 500000,
+        "vatAmount": 50000,
+        "status": "ISSUED",
+        "fileName": "signed.pdf",
+        "memo": null,
+        "cancelReason": null,
+        "createdAt": "2026-11-13T18:54:38.000000Z"
+      }
+    ],
+    "versions": [
+      {
+        "id": "37dd2aac-df0f-4a91-b578-e0c395a10e01",
+        "invoiceNo": "INV-LOCAL00001-202611-01",
+        "version": 1,
+        "previousInvoiceId": null,
+        "organizationId": "0b6c1d1e-3f0a-4a51-9a0e-2f4f6e1c9a11",
+        "organizationName": "가상 기관 A",
+        "contractId": "7cdf099d-cb89-4f5c-ad7a-11182786d68d",
+        "contractNo": "CT-LOCAL00001-202611-02",
+        "periodStart": "2026-11-01",
+        "periodEnd": "2026-11-30",
+        "status": "ISSUED",
+        "issueDate": "2026-11-14",
+        "dueDate": "2026-11-24",
+        "supplyAmount": 500000,
+        "vatAmount": 50000,
+        "totalAmount": 550000,
+        "allocatedAmount": 200000,
+        "outstandingAmount": 350000,
+        "collectionStatus": "BEFORE_DUE",
+        "daysOverdue": 0,
+        "agingBucket": "NOT_DUE",
+        "collectionAction": "NONE",
+        "graceUntil": null,
+        "createdAt": "2026-11-13T18:54:35.102233Z"
+      }
+    ]
+  },
+  "/api/admin/releases": [
+    {
+      "id": 4,
+      "platform": "WINDOWS",
+      "channel": "TEST",
+      "version": "1.3.0",
+      "build": "20261114.2",
+      "fileUrl": "https://example.invalid/demo-file",
+      "checksumSha256": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+      "signatureStatus": "PENDING",
+      "minSupportedVersion": "1.0.0",
+      "targetScope": "ORGS",
+      "targetOrgIds": ["5b0c7a1e-7c55-4a8e-9d0a-2f3e1c9b8a77"],
+      "status": "DRAFT",
+      "displayStatus": "DRAFT",
+      "noteStatus": "DRAFT",
+      "notes": {
+        "changes": null,
+        "improvements": null,
+        "fixes": null,
+        "knownIssues": null,
+        "publicText": null
+      },
+      "noteApprovedBy": null,
+      "noteApprovedAt": null,
+      "memo": "가상 기관 A 먼저",
+      "publishedAt": null,
+      "publishedBy": null,
+      "haltedAt": null,
+      "haltedBy": null,
+      "haltReason": null,
+      "createdBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
+      "createdAt": "2026-11-14T03:00:00Z",
+      "updatedAt": "2026-11-14T03:00:00Z"
+    }
+  ],
+  "/api/admin/insights/usage": {
+    "basis": {
+      "generatedAt": "2026-11-15T10:30:00.123+09:00",
+      "from": "2026-09-01",
+      "to": "2026-11-30",
+      "timezone": "Asia/Seoul"
+    },
+    "unit": "month",
+    "buckets": [
+      {
+        "bucketStart": "2026-09-01",
+        "conversionJobs": 74,
+        "textJobs": 78,
+        "conversionActiveAccounts": 8,
+        "conversionActiveOrgs": 3
+      },
+      {
+        "bucketStart": "2026-10-01",
+        "conversionJobs": 70,
+        "textJobs": 30,
+        "conversionActiveAccounts": 2,
+        "conversionActiveOrgs": 1
+      },
+      {
+        "bucketStart": "2026-11-01",
+        "conversionJobs": 14,
+        "textJobs": 8,
+        "conversionActiveAccounts": 3,
+        "conversionActiveOrgs": 1
+      }
+    ],
+    "rolling": {
+      "last7Days": {
+        "conversionActiveAccounts": 2,
+        "conversionActiveOrgs": 1
+      },
+      "last30Days": {
+        "conversionActiveAccounts": 3,
+        "conversionActiveOrgs": 1
+      }
+    }
+  },
+  "/api/admin/insights/revenue": {
+    "basis": {
+      "generatedAt": "2026-11-15T10:30:00.123+09:00",
+      "from": "2026-09-01",
+      "to": "2026-11-30",
+      "timezone": "Asia/Seoul"
+    },
+    "current": {
+      "asOf": "2026-11-15",
+      "mrrKrw": 1000000,
+      "activeContracts": 1,
+      "activeContractOrgs": 1,
+      "expiringWithinDays": 30,
+      "expiringContracts": 1
+    },
+    "months": [
+      {
+        "month": "2026-09",
+        "snapshotDate": "2026-09-30",
+        "mrrKrw": 1800000,
+        "activeContracts": 3,
+        "activeContractOrgs": 3,
+        "creditOrderPaidKrw": 0,
+        "creditOrderPaidCount": 0,
+        "paymentsReceivedKrw": 1000000,
+        "refundsKrw": 0,
+        "netReceivedKrw": 1000000
+      },
+      {
+        "month": "2026-10",
+        "snapshotDate": "2026-10-31",
+        "mrrKrw": 1000000,
+        "activeContracts": 1,
+        "activeContractOrgs": 1,
+        "creditOrderPaidKrw": 110000,
+        "creditOrderPaidCount": 1,
+        "paymentsReceivedKrw": 1000000,
+        "refundsKrw": 0,
+        "netReceivedKrw": 1000000
+      },
+      {
+        "month": "2026-11",
+        "snapshotDate": "2026-11-15",
+        "mrrKrw": 1000000,
+        "activeContracts": 1,
+        "activeContractOrgs": 1,
+        "creditOrderPaidKrw": 220000,
+        "creditOrderPaidCount": 1,
+        "paymentsReceivedKrw": 0,
+        "refundsKrw": 100000,
+        "netReceivedKrw": -100000
+      }
+    ]
+  },
+  "/api/admin/sales/funnel": {
+    "from": "2020-03-01",
+    "to": "2020-03-31",
+    "total": 5,
+    "won": 1,
+    "lost": 1,
+    "onHold": 1,
+    "inProgress": 2,
+    "stages": [
+      {
+        "code": "PROSPECTING",
+        "name": "기관 발굴",
+        "sortOrder": 10,
+        "reached": 5,
+        "previousReached": null,
+        "conversionRate": null,
+        "stoppedHere": {
+          "won": 0,
+          "lost": 0,
+          "onHold": 1,
+          "inProgress": 0
+        },
+        "dwell": {
+          "completedCount": 4,
+          "medianDays": 2.5,
+          "p90Days": 3.7,
+          "inProgressCount": 0,
+          "inProgressMedianDays": null
+        }
+      },
+      {
+        "code": "CONTACT",
+        "name": "접촉",
+        "sortOrder": 20,
+        "reached": 4,
+        "previousReached": 5,
+        "conversionRate": 0.8,
+        "stoppedHere": {
+          "won": 0,
+          "lost": 0,
+          "onHold": 0,
+          "inProgress": 0
+        },
+        "dwell": {
+          "completedCount": 3,
+          "medianDays": 3.0,
+          "p90Days": 3.0,
+          "inProgressCount": 1,
+          "inProgressMedianDays": 34.0
+        }
+      },
+      {
+        "code": "CONSULTATION",
+        "name": "상담",
+        "sortOrder": 30,
+        "reached": 4,
+        "previousReached": 4,
+        "conversionRate": 1.0,
+        "stoppedHere": {
+          "won": 0,
+          "lost": 1,
+          "onHold": 0,
+          "inProgress": 1
+        },
+        "dwell": {
+          "completedCount": 3,
+          "medianDays": 2.0,
+          "p90Days": 3.6,
+          "inProgressCount": 0,
+          "inProgressMedianDays": null
+        }
+      },
+      {
+        "code": "TRIAL",
+        "name": "체험",
+        "sortOrder": 40,
+        "reached": 2,
+        "previousReached": 4,
+        "conversionRate": 0.5,
+        "stoppedHere": {
+          "won": 0,
+          "lost": 0,
+          "onHold": 0,
+          "inProgress": 0
+        },
+        "dwell": {
+          "completedCount": 1,
+          "medianDays": 1.0,
+          "p90Days": 1.0,
+          "inProgressCount": 0,
+          "inProgressMedianDays": null
+        }
+      },
+      {
+        "code": "QUOTE",
+        "name": "견적",
+        "sortOrder": 50,
+        "reached": 2,
+        "previousReached": 2,
+        "conversionRate": 1.0,
+        "stoppedHere": {
+          "won": 0,
+          "lost": 0,
+          "onHold": 0,
+          "inProgress": 1
+        },
+        "dwell": {
+          "completedCount": 1,
+          "medianDays": 2.0,
+          "p90Days": 2.0,
+          "inProgressCount": 1,
+          "inProgressMedianDays": 40.0
+        }
+      },
+      {
+        "code": "CONTRACT",
+        "name": "계약",
+        "sortOrder": 60,
+        "reached": 1,
+        "previousReached": 2,
+        "conversionRate": 0.5,
+        "stoppedHere": {
+          "won": 1,
+          "lost": 0,
+          "onHold": 0,
+          "inProgress": 0
+        },
+        "dwell": {
+          "completedCount": 1,
+          "medianDays": 2.0,
+          "p90Days": 2.0,
+          "inProgressCount": 0,
+          "inProgressMedianDays": null
+        }
+      }
+    ]
+  },
+  "/api/admin/insights/ai-quality": {
+    "basis": {
+      "generatedAt": "2026-11-15T10:30:00.123+09:00",
+      "from": "2026-10-01",
+      "to": "2026-11-15",
+      "timezone": "Asia/Seoul"
+    },
+    "layoutTypes": [
+      {
+        "layoutType": "PAGE_LAYOUT_TEXT",
+        "pages": 100,
+        "completed": 65,
+        "needsReview": 35,
+        "blocked": 0,
+        "completedRate": {
+          "numerator": 65,
+          "denominator": 100,
+          "rate": 0.65
+        },
+        "needsReviewRate": {
+          "numerator": 35,
+          "denominator": 100,
+          "rate": 0.35
+        },
+        "blockedRate": {
+          "numerator": 0,
+          "denominator": 100,
+          "rate": 0.0
+        }
+      },
+      {
+        "layoutType": "PAGE_LAYOUT_UNSPECIFIED",
+        "pages": 14,
+        "completed": 0,
+        "needsReview": 0,
+        "blocked": 14,
+        "completedRate": {
+          "numerator": 0,
+          "denominator": 14,
+          "rate": 0.0
+        },
+        "needsReviewRate": {
+          "numerator": 0,
+          "denominator": 14,
+          "rate": 0.0
+        },
+        "blockedRate": {
+          "numerator": 14,
+          "denominator": 14,
+          "rate": 1.0
+        }
+      }
+    ],
+    "total": {
+      "layoutType": null,
+      "pages": 114,
+      "completed": 65,
+      "needsReview": 35,
+      "blocked": 14,
+      "completedRate": {
+        "numerator": 65,
+        "denominator": 114,
+        "rate": 0.5702
+      },
+      "needsReviewRate": {
+        "numerator": 35,
+        "denominator": 114,
+        "rate": 0.307
+      },
+      "blockedRate": {
+        "numerator": 14,
+        "denominator": 114,
+        "rate": 0.1228
+      }
+    },
+    "textCorrection": {
+      "scope": "한 번 이상 저장한 변환 작업의 AI 원본이 있는 글 요소(지운 · 막힌 · 사용자가 추가한 요소 제외)",
+      "byType": [
+        {
+          "elementType": "text",
+          "correctionRate": {
+            "numerator": 40,
+            "denominator": 382,
+            "rate": 0.1047
+          }
+        },
+        {
+          "elementType": "page_number",
+          "correctionRate": {
+            "numerator": 0,
+            "denominator": 24,
+            "rate": 0.0
+          }
+        }
+      ],
+      "total": {
+        "elementType": null,
+        "correctionRate": {
+          "numerator": 40,
+          "denominator": 406,
+          "rate": 0.0985
+        }
+      }
+    },
+    "processingTime": {
+      "jobs": 75,
+      "p50Sec": 9,
+      "p90Sec": 92,
+      "avgSec": 5456,
+      "maxSec": 406441,
+      "perPageP50Sec": 8,
+      "buckets": [
+        {
+          "fromMinutes": 0,
+          "toMinutes": 30,
+          "jobs": 70
+        },
+        {
+          "fromMinutes": 30,
+          "toMinutes": 60,
+          "jobs": 2
+        },
+        {
+          "fromMinutes": 60,
+          "toMinutes": 120,
+          "jobs": 1
+        },
+        {
+          "fromMinutes": 120,
+          "toMinutes": null,
+          "jobs": 2
+        }
+      ]
+    }
+  },
+  "/api/admin/insights/order-funnel": {
+    "basis": {
+      "generatedAt": "2026-11-15T10:30:00.123+09:00",
+      "from": "2026-10-01",
+      "to": "2026-11-15",
+      "timezone": "Asia/Seoul"
+    },
+    "ordered": {
+      "orders": 3,
+      "amountKrw": 385000,
+      "credits": 350
+    },
+    "paid": {
+      "orders": 2,
+      "amountKrw": 330000,
+      "credits": 300
+    },
+    "granted": {
+      "orders": 1,
+      "amountKrw": 110000,
+      "credits": 100
+    },
+    "paidRate": {
+      "numerator": 2,
+      "denominator": 3,
+      "rate": 0.6667
+    },
+    "grantedRate": {
+      "numerator": 1,
+      "denominator": 2,
+      "rate": 0.5
+    },
+    "paidNotGranted": 1
+  },
+  "/api/admin/sales/stages": [
+    {
+      "code": "PROSPECTING",
+      "name": "기관 발굴",
+      "sortOrder": 10,
+      "active": true
+    },
+    {
+      "code": "CONTACT",
+      "name": "접촉",
+      "sortOrder": 20,
+      "active": true
+    },
+    {
+      "code": "CONSULTATION",
+      "name": "상담",
+      "sortOrder": 30,
+      "active": true
+    },
+    {
+      "code": "TRIAL",
+      "name": "체험",
+      "sortOrder": 40,
+      "active": true
+    },
+    {
+      "code": "QUOTE",
+      "name": "견적",
+      "sortOrder": 50,
+      "active": true
+    },
+    {
+      "code": "CONTRACT",
+      "name": "계약",
+      "sortOrder": 60,
+      "active": true
+    }
+  ],
+  "/api/admin/sales/opportunities/{opportunityId}": {
+    "opportunity": {
+      "id": "caf0b728-c688-4b75-8e4b-a361985e2e5a",
+      "title": "점자 도서관 도입",
+      "organizationId": null,
+      "organizationName": null,
+      "prospectName": "한빛 점자도서관",
+      "stageCode": "QUOTE",
+      "stageName": "견적",
+      "stageEnteredAt": "2026-11-15T01:23:08.050000Z",
+      "ownerUserId": "50712535-e5f8-42f3-a32e-fba39b7d3b52",
+      "ownerName": "webadmin01",
+      "expectedMonthlyFeeKrw": 300000,
+      "expectedAmountKrw": 3600000,
+      "nextFollowUpAt": "2030-01-10T01:00:00Z",
+      "status": "OPEN",
+      "closeOutcome": null,
+      "closedAt": null,
+      "contractId": null,
+      "contractNo": null,
+      "createdAt": "2026-11-15T01:23:07.809366Z",
+      "updatedAt": "2026-11-15T01:23:08.050000Z"
+    },
+    "contact": {
+      "name": "김담당",
+      "phone": "010-1234-5678",
+      "email": "kim@example.org"
+    },
+    "memo": "첫 통화",
+    "closeReason": null,
+    "closedBy": null,
+    "createdBy": "50712535-e5f8-42f3-a32e-fba39b7d3b52",
+    "history": [
+      {
+        "fromStage": null,
+        "fromStageName": null,
+        "toStage": "PROSPECTING",
+        "toStageName": "기관 발굴",
+        "changedAt": "2026-11-15T01:23:07.809366Z",
+        "changedBy": "50712535-e5f8-42f3-a32e-fba39b7d3b52",
+        "note": null
+      },
+      {
+        "fromStage": "PROSPECTING",
+        "fromStageName": "기관 발굴",
+        "toStage": "CONTACT",
+        "toStageName": "접촉",
+        "changedAt": "2026-11-15T01:23:07.900000Z",
+        "changedBy": "50712535-e5f8-42f3-a32e-fba39b7d3b52",
+        "note": "전화 연결"
+      },
+      {
+        "fromStage": "CONTACT",
+        "fromStageName": "접촉",
+        "toStage": "QUOTE",
+        "toStageName": "견적",
+        "changedAt": "2026-11-15T01:23:08.050000Z",
+        "changedBy": "50712535-e5f8-42f3-a32e-fba39b7d3b52",
+        "note": null
+      }
+    ],
+    "quotes": [
+      {
+        "id": "56084ceb-80d0-44d5-aff0-dd61858d9156",
+        "amountKrw": 3600000,
+        "monthlyFeeKrw": 300000,
+        "conditions": "12개월",
+        "validUntil": "2030-02-01",
+        "fileName": "견적서.pdf",
+        "fileUploadedAt": "2026-11-15T01:23:08.300000Z",
+        "createdBy": "50712535-e5f8-42f3-a32e-fba39b7d3b52",
+        "createdAt": "2026-11-15T01:23:08.090270Z"
+      }
+    ]
+  },
+  "/api/admin/insights/attempt-success": {
+    "basis": {
+      "generatedAt": "2026-11-15T14:00:00.123+09:00",
+      "from": "2026-11-01",
+      "to": "2026-11-30",
+      "timezone": "Asia/Seoul"
+    },
+    "total": {
+      "attemptSuccessRate": {
+        "numerator": 3,
+        "denominator": 9,
+        "rate": 0.3333
+      },
+      "pageSuccessRate": {
+        "numerator": 3,
+        "denominator": 6,
+        "rate": 0.5
+      },
+      "aiBlockedAttempts": 1
+    },
+    "byLayout": [
+      {
+        "layoutType": null,
+        "attemptSuccessRate": {
+          "numerator": 0,
+          "denominator": 5,
+          "rate": 0.0
+        },
+        "pageSuccessRate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "aiBlockedAttempts": 1
+      },
+      {
+        "layoutType": "PAGE_LAYOUT_TEXT",
+        "attemptSuccessRate": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6667
+        },
+        "pageSuccessRate": {
+          "numerator": 2,
+          "denominator": 2,
+          "rate": 1.0
+        },
+        "aiBlockedAttempts": 0
+      },
+      {
+        "layoutType": "PAGE_LAYOUT_TABLE",
+        "attemptSuccessRate": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "pageSuccessRate": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "aiBlockedAttempts": 0
+      }
+    ],
+    "byFileKind": [
+      {
+        "fileKind": "pdf",
+        "attemptSuccessRate": {
+          "numerator": 3,
+          "denominator": 7,
+          "rate": 0.4286
+        },
+        "pageSuccessRate": {
+          "numerator": 3,
+          "denominator": 5,
+          "rate": 0.6
+        },
+        "aiBlockedAttempts": 1
+      },
+      {
+        "fileKind": "image",
+        "attemptSuccessRate": {
+          "numerator": 0,
+          "denominator": 2,
+          "rate": 0.0
+        },
+        "pageSuccessRate": {
+          "numerator": 0,
+          "denominator": 1,
+          "rate": 0.0
+        },
+        "aiBlockedAttempts": 0
+      }
+    ],
+    "unknownLayoutByFileKind": [
+      {
+        "fileKind": "pdf",
+        "attemptSuccessRate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "pageSuccessRate": {
+          "numerator": 0,
+          "denominator": 2,
+          "rate": 0.0
+        },
+        "aiBlockedAttempts": 1
+      },
+      {
+        "fileKind": "image",
+        "attemptSuccessRate": {
+          "numerator": 0,
+          "denominator": 2,
+          "rate": 0.0
+        },
+        "pageSuccessRate": {
+          "numerator": 0,
+          "denominator": 1,
+          "rate": 0.0
+        },
+        "aiBlockedAttempts": 0
+      }
+    ],
+    "failures": [
+      {
+        "outcome": "AI_BLOCKED",
+        "errorKind": null,
+        "category": "AI_ANSWER",
+        "attempts": 1,
+        "share": {
+          "numerator": 1,
+          "denominator": 9,
+          "rate": 0.1111
+        }
+      },
+      {
+        "outcome": "CANCELED",
+        "errorKind": "UNAVAILABLE",
+        "category": "AI_GRPC",
+        "attempts": 1,
+        "share": {
+          "numerator": 1,
+          "denominator": 9,
+          "rate": 0.1111
+        }
+      },
+      {
+        "outcome": "MAX_RETRY_BLOCKED",
+        "errorKind": "DEADLINE_EXCEEDED",
+        "category": "AI_GRPC",
+        "attempts": 1,
+        "share": {
+          "numerator": 1,
+          "denominator": 9,
+          "rate": 0.1111
+        }
+      },
+      {
+        "outcome": "RETRY",
+        "errorKind": "DATABASE",
+        "category": "SERVER",
+        "attempts": 1,
+        "share": {
+          "numerator": 1,
+          "denominator": 9,
+          "rate": 0.1111
+        }
+      },
+      {
+        "outcome": "RETRY",
+        "errorKind": "INTERNAL",
+        "category": "UNCLEAR",
+        "attempts": 1,
+        "share": {
+          "numerator": 1,
+          "denominator": 9,
+          "rate": 0.1111
+        }
+      },
+      {
+        "outcome": "RETRY",
+        "errorKind": "UNAVAILABLE",
+        "category": "AI_GRPC",
+        "attempts": 1,
+        "share": {
+          "numerator": 1,
+          "denominator": 9,
+          "rate": 0.1111
+        }
+      }
+    ],
+    "excluded": {
+      "allAttempts": 12,
+      "notSentToAi": 1,
+      "backpressure": 1,
+      "shutdown": 1
+    }
+  },
+  "/api/admin/insights/credit-low": {
+    "generatedAt": "2026-11-15T10:30:00.123+09:00",
+    "timezone": "Asia/Seoul",
+    "threshold": 100,
+    "organizationsChecked": 3,
+    "exhaustedOrganizations": 1,
+    "organizations": [
+      {
+        "organizationId": "7f1c2a9e-0b5d-4c1e-9a77-1d2e3f4a5b6c",
+        "name": "기관 C",
+        "contractType": "BASIC",
+        "allocated": 5,
+        "remaining": -5,
+        "exhausted": true
+      },
+      {
+        "organizationId": "2b8d4e10-6c3f-4a2b-8e91-0a1b2c3d4e5f",
+        "name": "기관 B",
+        "contractType": "FREE",
+        "allocated": 50,
+        "remaining": 80,
+        "exhausted": false
+      }
+    ]
+  },
+  "/api/admin/sales/opportunities": {
+    "items": [
+      {
+        "id": "caf0b728-c688-4b75-8e4b-a361985e2e5a",
+        "title": "점자 도서관 도입",
+        "organizationId": "8f7d2c11-4a0b-4c7e-9a1e-2b3c4d5e6f70",
+        "organizationName": "한빛 점자도서관",
+        "prospectName": null,
+        "stageCode": "TRIAL",
+        "stageName": "체험",
+        "stageEnteredAt": "2026-11-15T01:23:08.010000Z",
+        "ownerUserId": "50712535-e5f8-42f3-a32e-fba39b7d3b52",
+        "ownerName": "webadmin01",
+        "expectedMonthlyFeeKrw": 300000,
+        "expectedAmountKrw": 3600000,
+        "nextFollowUpAt": "2030-01-10T01:00:00Z",
+        "status": "OPEN",
+        "closeOutcome": null,
+        "closedAt": null,
+        "contractId": null,
+        "contractNo": null,
+        "createdAt": "2026-11-15T01:23:07.809366Z",
+        "updatedAt": "2026-11-15T01:23:08.010000Z"
+      }
+    ],
+    "totalCount": 1,
+    "page": 0,
+    "size": 20
+  },
+  "/api/admin/insights/datasets": {
+    "basis": {
+      "generatedAt": "2026-11-15T10:30:00.123+09:00",
+      "from": "2026-10-01",
+      "to": "2026-11-30",
+      "timezone": "Asia/Seoul"
+    },
+    "units": [
+      {
+        "unit": "시간",
+        "months": [
+          {
+            "month": "2026-10",
+            "cumulative": 10,
+            "delta": 10,
+            "byDataset": [
+              {
+                "datasetName": "음성 자료",
+                "cumulative": 10,
+                "delta": 10
+              }
+            ]
+          },
+          {
+            "month": "2026-11",
+            "cumulative": 10,
+            "delta": 0,
+            "byDataset": [
+              {
+                "datasetName": "음성 자료",
+                "cumulative": 10,
+                "delta": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unit": "쌍",
+        "months": [
+          {
+            "month": "2026-10",
+            "cumulative": 100,
+            "delta": 100,
+            "byDataset": [
+              {
+                "datasetName": "점자책 교정쌍",
+                "cumulative": 100,
+                "delta": 100
+              }
+            ]
+          },
+          {
+            "month": "2026-11",
+            "cumulative": 140,
+            "delta": 40,
+            "byDataset": [
+              {
+                "datasetName": "점자책 교정쌍",
+                "cumulative": 140,
+                "delta": 40
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "/api/admin/ops/home": {
+    "asOf": "2026-11-15",
+    "generatedAt": "2026-11-15T01:02:55.240725Z",
+    "cards": {
+      "contractExpiring": {
+        "contractCount": 1,
+        "organizationCount": 1,
+        "withinDays": 30
+      },
+      "overdueReceivables": {
+        "invoiceCount": 1,
+        "organizationCount": 1,
+        "outstandingAmount": 550000
+      },
+      "lowBalance": {
+        "organizationCount": 1,
+        "thresholdCredits": 100
+      },
+      "mailAwaitingReply": {
+        "threadCount": 2,
+        "overdueThreadCount": 1,
+        "replyDueHours": 24,
+        "lastSyncedAt": null,
+        "syncErrorAt": null
+      },
+      "openIncidents": {
+        "count": 1,
+        "sev1Count": 1
+      }
+    },
+    "items": [
+      {
+        "category": "CONTRACT_EXPIRING",
+        "organizationId": "11111111-0000-0000-0000-000000000002",
+        "organizationName": "가상 기관 B",
+        "targetId": "22222222-0000-0000-0000-000000000001",
+        "label": "CT-E2EB-202511-001",
+        "status": "EXPIRING",
+        "date": "2026-11-20",
+        "days": 5,
+        "value": null,
+        "unit": null,
+        "severity": null,
+        "link": "/contracts/22222222-0000-0000-0000-000000000001"
+      },
+      {
+        "category": "RECEIVABLE_OVERDUE",
+        "organizationId": "11111111-0000-0000-0000-000000000003",
+        "organizationName": "가상 기관 D",
+        "targetId": "33333333-0000-0000-0000-000000000001",
+        "label": "INV-E2ED-202510-001",
+        "status": "OVERDUE",
+        "date": "2026-11-08",
+        "days": 7,
+        "value": 550000,
+        "unit": "KRW",
+        "severity": null,
+        "link": "/billing/invoices/33333333-0000-0000-0000-000000000001"
+      },
+      {
+        "category": "LOW_BALANCE",
+        "organizationId": "11111111-0000-0000-0000-000000000002",
+        "organizationName": "가상 기관 B",
+        "targetId": "11111111-0000-0000-0000-000000000002",
+        "label": "가상 기관 B",
+        "status": "LOW_BALANCE",
+        "date": null,
+        "days": null,
+        "value": 40,
+        "unit": "CREDIT",
+        "severity": null,
+        "link": "/credit/orgs/11111111-0000-0000-0000-000000000002"
+      },
+      {
+        "category": "INCIDENT",
+        "organizationId": null,
+        "organizationName": null,
+        "targetId": "1",
+        "label": "변환 API 오류 증가",
+        "status": "OPEN",
+        "date": "2026-11-15",
+        "days": null,
+        "value": null,
+        "unit": null,
+        "severity": "SEV1",
+        "link": "/incidents/1"
+      }
+    ],
+    "recentActivities": [
+      {
+        "occurredAt": "2026-11-15T00:57:54.651423Z",
+        "actorLoginId": "webadmin01",
+        "action": "CONTRACT_STATUS_CHANGE",
+        "targetType": "CONTRACT",
+        "targetId": "22222222-0000-0000-0000-000000000001",
+        "success": true
+      },
+      {
+        "occurredAt": "2026-11-15T00:32:54.651423Z",
+        "actorLoginId": "webadmin01",
+        "action": "BILLING_DOCUMENT_CREATE",
+        "targetType": "INVOICE",
+        "targetId": "33333333-0000-0000-0000-000000000001",
+        "success": true
+      }
+    ]
+  },
+  "/api/admin/insights/collections": {
+    "basis": {
+      "generatedAt": "2026-11-15T10:30:00.123+09:00",
+      "from": "2026-09-01",
+      "to": "2026-11-30",
+      "timezone": "Asia/Seoul"
+    },
+    "asOf": "2026-11-15",
+    "cohorts": [
+      {
+        "billingMonth": "2026-09",
+        "invoices": 1,
+        "billedKrw": 1100000,
+        "collectedKrw": 600000,
+        "outstandingKrw": 500000,
+        "collectionRate": {
+          "numerator": 600000,
+          "denominator": 1100000,
+          "rate": 0.5455
+        }
+      },
+      {
+        "billingMonth": "2026-10",
+        "invoices": 1,
+        "billedKrw": 1100000,
+        "collectedKrw": 400000,
+        "outstandingKrw": 700000,
+        "collectionRate": {
+          "numerator": 400000,
+          "denominator": 1100000,
+          "rate": 0.3636
+        }
+      },
+      {
+        "billingMonth": "2026-11",
+        "invoices": 0,
+        "billedKrw": 0,
+        "collectedKrw": 0,
+        "outstandingKrw": 0,
+        "collectionRate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        }
+      }
+    ],
+    "total": {
+      "billingMonth": null,
+      "invoices": 2,
+      "billedKrw": 2200000,
+      "collectedKrw": 1000000,
+      "outstandingKrw": 1200000,
+      "collectionRate": {
+        "numerator": 1000000,
+        "denominator": 2200000,
+        "rate": 0.4545
+      }
+    },
+    "aging": {
+      "firstMaxDays": 7,
+      "secondMaxDays": 30,
+      "outstandingKrw": 1200000,
+      "buckets": [
+        {
+          "bucket": "NOT_DUE",
+          "invoices": 0,
+          "outstandingKrw": 0
+        },
+        {
+          "bucket": "FIRST",
+          "invoices": 0,
+          "outstandingKrw": 0
+        },
+        {
+          "bucket": "SECOND",
+          "invoices": 1,
+          "outstandingKrw": 700000
+        },
+        {
+          "bucket": "THIRD",
+          "invoices": 1,
+          "outstandingKrw": 500000
+        }
+      ]
+    }
+  },
+  "/api/admin/sales/opportunities/{opportunityId}/quotes/{quoteId}/file": {
+    "fileName": "견적서.pdf",
+    "url": "https://example.invalid/demo-file"
+  },
+  "/api/admin/orders/{orderId}/quote": {
+    "fileName": "견적서_20260602.pdf",
+    "url": "https://example.invalid/demo-file 15분)"
+  },
+  "/api/admin/orders": [
+    {
+      "id": "uuid",
+      "organizationId": "uuid",
+      "orgName": "가상 점자도서관",
+      "orderDate": "2026-08-01",
+      "description": "연간 계약 · 10,000 크레딧",
+      "amountKrw": 2400000,
+      "creditAmount": 10000,
+      "paidAt": "2026-08-05",
+      "invoiceStatus": "ISSUED",
+      "receiptFileName": "계산서_2월.pdf",
+      "createdAt": "...",
+      "requestId": null,
+      "quoteFileName": null
+    }
+  ],
+  "/api/admin/orders/{orderId}/receipt": {
+    "fileName": "계산서_2월.pdf",
+    "url": "https://example.invalid/demo-file 15분)"
+  }
+}

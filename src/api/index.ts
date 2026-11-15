@@ -13,7 +13,7 @@ import type { Role } from './types'
  *
  * 화면은 이 파일이 내보내는 `api` 하나만 보고 있으므로, 서버가 바뀌어도 화면은 손대지 않습니다.
  */
-const source = import.meta.env.VITE_API_SOURCE ?? 'mock'
+const source = import.meta.env.VITE_API_SOURCE ?? (import.meta.env.PROD ? 'http' : 'mock')
 
 export const api: Api = source === 'http' ? httpApi : mockApi
 

@@ -14,7 +14,7 @@ export function AdminLoginPage() {
       host="admin.semo-jum.com"
       title="관리자 콘솔"
       description="운영자 계정으로 로그인"
-      destinations={{ ROLE_ADMIN: '/admin/stats' }}
+      destinations={{ ROLE_ADMIN: '/admin/home' }}
       footNote="운영자 권한(ROLE_ADMIN) 계정만 접근할 수 있습니다."
       demoRoles={['ROLE_ADMIN']}
       crossLink={

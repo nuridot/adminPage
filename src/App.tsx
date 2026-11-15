@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ToastProvider } from '@/components/Toast'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { AuthProvider } from '@/auth/AuthContext'
+import { Reauthentication } from '@/auth/Reauthentication'
 import { RequireRole } from '@/auth/RequireRole'
 import { AdminLayout } from '@/layouts/AdminLayout'
 import { OrgLayout } from '@/layouts/OrgLayout'
@@ -20,7 +21,11 @@ import { OrgInfoWindow } from '@/pages/admin/OrgInfoWindow'
 import { AccountInfoWindow } from '@/pages/admin/AccountInfoWindow'
 import { InquiryPage } from '@/pages/admin/InquiryPage'
 import { NoticePage } from '@/pages/admin/NoticePage'
-import { AnalysisPage } from '@/pages/admin/AnalysisPage'
+import { OpsHomePage } from '@/pages/admin/OpsHomePage'
+import { InsightsPage } from '@/pages/admin/InsightsPage'
+import { CreditPage } from '@/pages/admin/CreditPage'
+import { MailPage } from '@/pages/admin/MailPage'
+import { OperationsPage } from '@/pages/admin/OperationsPage'
 
 import { OrgManagePage } from '@/pages/org/OrgManagePage'
 import { OrgAccountDetailWindow } from '@/pages/org/OrgAccountDetailWindow'
@@ -43,43 +48,66 @@ export function App() {
         <AuthProvider>
           <ToastProvider>
             <ErrorBoundary>
-            <Routes>
-              <Route path="/" element={<Navigate to="/admin/stats" replace />} />
+              <Reauthentication />
+              <Routes>
+                <Route path="/" element={<Navigate to="/admin/home" replace />} />
 
-              {/* 로그인 — 진입점마다 하나씩. 기획서 §6 권한별 진입 분리 */}
-              <Route path="/login" element={<AdminLoginPage />} />
-              <Route path="/org/login" element={<AppLoginPage />} />
+                {/* 로그인 — 진입점마다 하나씩. 기획서 §6 권한별 진입 분리 */}
+                <Route path="/login" element={<AdminLoginPage />} />
+                <Route path="/org/login" element={<AppLoginPage />} />
 
-              {/* T1 · 운영자 콘솔 — 실제로는 admin.semo-jum.com 로 분리해 띄웁니다. */}
-              <Route element={<RequireRole roles={['ROLE_ADMIN']} loginPath="/login" />}>
-                <Route path="/admin" element={<AdminLayout />}>
-                  <Route index element={<Navigate to="/admin/stats" replace />} />
-                  <Route path="stats" element={<StatsPage />} />
-                  <Route path="stats/detail" element={<StatsDetailPage />} />
-                  <Route path="monitoring" element={<MonitoringPage />} />
-                  <Route path="orgs" element={<OrgAccountPage />} />
-                  <Route path="inquiries" element={<InquiryPage />} />
-                  <Route path="notices" element={<NoticePage />} />
-                  <Route path="analysis" element={<AnalysisPage />} />
+                {/* T1 · 운영자 콘솔 — 실제로는 admin.semo-jum.com 로 분리해 띄웁니다. */}
+                <Route element={<RequireRole roles={['ROLE_ADMIN']} loginPath="/login" />}>
+                  <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<Navigate to="/admin/home" replace />} />
+                    <Route path="home" element={<OpsHomePage />} />
+                    <Route
+                      path="insights"
+                      element={<Navigate to="/admin/insights/overview" replace />}
+                    />
+                    <Route path="insights/:section" element={<InsightsPage />} />
+                    <Route path="orders/*" element={<OperationsPage />} />
+                    <Route path="credit" element={<CreditPage />} />
+                    <Route path="mail" element={<MailPage />} />
+                    <Route path="mail/:threadId" element={<MailPage />} />
+                    <Route path="contracts/*" element={<OperationsPage />} />
+                    <Route path="billing/*" element={<OperationsPage />} />
+                    <Route path="documents/*" element={<OperationsPage />} />
+                    <Route path="sales/*" element={<OperationsPage />} />
+                    <Route path="releases/*" element={<OperationsPage />} />
+                    <Route path="incidents/*" element={<OperationsPage />} />
+                    <Route path="datasets/*" element={<OperationsPage />} />
+                    <Route path="security/*" element={<OperationsPage />} />
+                    <Route path="notifications/*" element={<OperationsPage />} />
+                    <Route path="stats" element={<StatsPage />} />
+                    <Route path="stats/detail" element={<StatsDetailPage />} />
+                    <Route path="monitoring" element={<MonitoringPage />} />
+                    <Route path="orgs" element={<OrgAccountPage />} />
+                    <Route path="inquiries" element={<InquiryPage />} />
+                    <Route path="notices" element={<NoticePage />} />
+                    <Route
+                      path="analysis"
+                      element={<Navigate to="/admin/insights/overview" replace />}
+                    />
+                  </Route>
+
+                  {/* 새 창 — 탭 내비게이션 없이 단독으로 뜹니다. */}
+                  <Route path="/admin/jobs/:jobId" element={<JobDetailWindow />} />
+                  <Route path="/admin/jobs/:jobId/preview" element={<JobPreviewWindow />} />
+                  <Route path="/admin/orgs/:orgId" element={<OrgInfoWindow />} />
+                  <Route path="/admin/accounts/:loginId" element={<AccountInfoWindow />} />
                 </Route>
 
-                {/* 새 창 — 탭 내비게이션 없이 단독으로 뜹니다. */}
-                <Route path="/admin/jobs/:jobId" element={<JobDetailWindow />} />
-                <Route path="/admin/jobs/:jobId/preview" element={<JobPreviewWindow />} />
-                <Route path="/admin/orgs/:orgId" element={<OrgInfoWindow />} />
-                <Route path="/admin/accounts/:loginId" element={<AccountInfoWindow />} />
-              </Route>
-
-              {/* T2 · 기관 관리 — 실제로는 서비스 앱(semo-jum.com) 안의 탭입니다. */}
-              <Route element={<RequireRole roles={['ROLE_ORG_ADMIN']} loginPath="/org/login" />}>
-                <Route path="/org" element={<OrgLayout />}>
-                  <Route index element={<OrgManagePage />} />
+                {/* T2 · 기관 관리 — 실제로는 서비스 앱(semo-jum.com) 안의 탭입니다. */}
+                <Route element={<RequireRole roles={['ROLE_ORG_ADMIN']} loginPath="/org/login" />}>
+                  <Route path="/org" element={<OrgLayout />}>
+                    <Route index element={<OrgManagePage />} />
+                  </Route>
+                  <Route path="/org/accounts/:loginId" element={<OrgAccountDetailWindow />} />
                 </Route>
-                <Route path="/org/accounts/:loginId" element={<OrgAccountDetailWindow />} />
-              </Route>
 
-              <Route path="*" element={<Navigate to="/admin/stats" replace />} />
-            </Routes>
+                <Route path="*" element={<Navigate to="/admin/home" replace />} />
+              </Routes>
             </ErrorBoundary>
           </ToastProvider>
         </AuthProvider>
