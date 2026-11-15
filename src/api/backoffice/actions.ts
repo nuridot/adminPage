@@ -10,7 +10,7 @@ const enums: Record<string, string[]> = {
   signatureStatus: ['UNKNOWN', 'UNSIGNED', 'PENDING', 'VERIFIED', 'FAILED'],
   targetScope: ['ALL', 'ORGS'],
   severity: ['SEV1', 'SEV2', 'SEV3'],
-  environment: ['DEV', 'STAGING', 'PROD'],
+  environment: ['DEV', 'LOCAL', 'PROD'],
   outcome: ['WON', 'LOST', 'ON_HOLD'],
 }
 function fieldsOf(shape: Row): Field[] {

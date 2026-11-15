@@ -502,7 +502,7 @@ function createActions(module: string, tab: string): Action[] {
         '/api/admin/secrets',
         {},
         {
-          required: ['name', 'environment', 'purpose', 'owner', 'reference'],
+          required: ['name', 'environment', 'reference'],
           hint: '비밀값을 입력하지 마세요. 비밀 저장소의 참조 주소와 운영 정보만 기록합니다.',
         },
       ),
@@ -687,6 +687,7 @@ function detailActions(module: string, tab: string, raw: Row): Action[] {
               {
                 required: ['type', 'note'],
                 choices: { type: ['CONTACT', 'GRACE', 'RESTRICT', 'RELEASE'] },
+                hint: '제한은 운영 기록입니다. 변환·로그인 이용을 자동으로 막지는 않습니다.',
               },
             ),
             action(
@@ -969,7 +970,7 @@ function detailActions(module: string, tab: string, raw: Row): Action[] {
         { secretId: id },
         {
           initial: r,
-          required: ['purpose', 'owner', 'reference', 'status'],
+          required: ['reference'],
           choices: { status: ['ACTIVE', 'ROTATING', 'REVOKED'] },
           hint: '비밀 원문을 입력하지 마세요.',
         },

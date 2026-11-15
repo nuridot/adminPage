@@ -19,6 +19,13 @@ export function operationMessage(result: unknown): string {
 }
 
 export function validateOperation(path: string, body: Record<string, unknown>): string | null {
+  if (
+    path.includes('/secrets') &&
+    body.reference &&
+    !/^(\/[\w.-]+\/[\w./-]+|arn:aws:[^\s]+|(?:op|vault):\/\/[^\s]+)$/.test(String(body.reference))
+  ) {
+    return '비밀 원문 대신 SSM 경로, AWS ARN, 1Password 또는 Vault 참조 주소를 입력하세요.'
+  }
   const terms = (typeof body.terms === 'object' && body.terms ? body.terms : body) as Record<
     string,
     unknown

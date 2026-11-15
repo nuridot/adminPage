@@ -50,6 +50,10 @@ describe('business operation safeguards', () => {
     expect(contractTransitions.TERMINATED).toEqual([])
   })
   it('requires a termination reason and date and prevents incomplete credit or release commands', () => {
+    expect(validateOperation('/api/admin/secrets', { reference: 'plain-secret-value' })).toContain(
+      '비밀 원문 대신',
+    )
+    expect(validateOperation('/api/admin/secrets', { reference: '/service/prod/key' })).toBeNull()
     expect(validateOperation('/api/admin/contracts/id/status', { status: 'TERMINATED' })).toContain(
       '해지 사유',
     )
