@@ -1,8 +1,13 @@
-import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { backoffice } from '@/api/backoffice/client'
-import { isMockApi } from '@/api'
+import { api, isMockApi } from '@/api'
+import {
+  insightParams,
+  layoutTypes,
+  periodBoundary,
+  validInsightPeriod,
+} from '@/api/backoffice/insightFilters'
 import type {
   Attempts,
   Collections,
@@ -16,6 +21,7 @@ import type {
 import { Query } from '@/components/ui'
 import {
   Bars,
+  FilterScope,
   layoutLabel,
   Metric,
   money,
@@ -44,8 +50,6 @@ const kstMonth = () =>
     year: 'numeric',
     month: '2-digit',
   }).format(new Date())
-const dayEnd = (month: string) =>
-  `${month}-${new Date(Number(month.slice(0, 4)), Number(month.slice(5)), 0).getDate()}`
 interface SalesFunnel {
   from: string
   to: string
@@ -74,50 +78,73 @@ export function InsightsPage() {
   const now = kstMonth()
   const defaultFrom = new Date(`${now}-01T00:00:00Z`)
   defaultFrom.setUTCMonth(defaultFrom.getUTCMonth() - 2)
-  const [from, setFrom] = useState(search.get('from') ?? defaultFrom.toISOString().slice(0, 7))
-  const [to, setTo] = useState(search.get('to') ?? now)
+  const from = search.get('from') ?? defaultFrom.toISOString().slice(0, 7)
+  const to = search.get('to') ?? now
+  const orgId = search.get('orgId') ?? ''
+  const layoutType = search.get('layoutType') ?? ''
+  const mode = search.get('period') === 'day' || from.length === 10 ? 'day' : 'month'
+  const usageUnit = search.get('unit') === 'week' ? 'week' : 'month'
   const valid =
-    /^20\d{2}-(0[1-9]|1[0-2])$/.test(from) &&
-    /^20\d{2}-(0[1-9]|1[0-2])$/.test(to) &&
-    from <= to &&
-    to <= now &&
-    (+new Date(dayEnd(to)) - +new Date(`${from}-01`)) / 86400000 < 400
-  const months = { from, to },
-    days = { from: `${from}-01`, to: dayEnd(to) }
+    validInsightPeriod(from, to) &&
+    (isMockApi || !orgId || /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i.test(orgId)) &&
+    (!layoutType || layoutTypes.some((value) => value === layoutType))
+  const updateFilters = (values: Record<string, string>) => {
+    const next = new URLSearchParams(search)
+    for (const [key, value] of Object.entries(values))
+      value ? next.set(key, value) : next.delete(key)
+    setSearch(next, { replace: true })
+  }
+  const filters = { from, to, orgId, layoutType }
+  const params = (metric: string) => insightParams(metric, filters)
+  const months = { from, to }
+  const days = {
+    from: periodBoundary(from)?.toISOString().slice(0, 10) ?? '',
+    to: periodBoundary(to, true)?.toISOString().slice(0, 10) ?? '',
+  }
+  const orgs = useQuery({
+    queryKey: ['insight-filter-orgs'],
+    queryFn: () => api.admin.getOrgs(),
+    enabled: section !== 'datasets',
+  })
   const relevant = (...s: string[]) => valid && s.includes(section)
   const revenue = useQuery({
-    queryKey: ['backoffice', 'revenue', months],
-    queryFn: () => backoffice.get<Revenue>('/api/admin/insights/revenue', months),
+    queryKey: ['backoffice', 'revenue', params('revenue')],
+    queryFn: () => backoffice.get<Revenue>('/api/admin/insights/revenue', params('revenue')),
     enabled: relevant('overview', 'revenue'),
   })
   const usage = useQuery({
-    queryKey: ['backoffice', 'usage', days],
-    queryFn: () => backoffice.get<Usage>('/api/admin/insights/usage', { ...days, unit: 'month' }),
+    queryKey: ['backoffice', 'usage', params('usage'), usageUnit],
+    queryFn: () =>
+      backoffice.get<Usage>('/api/admin/insights/usage', { ...params('usage'), unit: usageUnit }),
     enabled: relevant('overview', 'usage'),
   })
   const quality = useQuery({
-    queryKey: ['backoffice', 'quality', days],
-    queryFn: () => backoffice.get<Quality>('/api/admin/insights/ai-quality', days),
+    queryKey: ['backoffice', 'quality', params('ai-quality')],
+    queryFn: () => backoffice.get<Quality>('/api/admin/insights/ai-quality', params('ai-quality')),
     enabled: relevant('overview', 'quality', 'retention'),
   })
   const attempts = useQuery({
-    queryKey: ['backoffice', 'attempts', days],
-    queryFn: () => backoffice.get<Attempts>('/api/admin/insights/attempt-success', days),
+    queryKey: ['backoffice', 'attempts', params('attempt-success')],
+    queryFn: () =>
+      backoffice.get<Attempts>('/api/admin/insights/attempt-success', params('attempt-success')),
     enabled: relevant('overview', 'quality'),
   })
   const low = useQuery({
-    queryKey: ['backoffice', 'low'],
-    queryFn: () => backoffice.get<LowCredit>('/api/admin/insights/credit-low'),
+    queryKey: ['backoffice', 'low', params('credit-low')],
+    queryFn: () =>
+      backoffice.get<LowCredit>('/api/admin/insights/credit-low', params('credit-low')),
     enabled: relevant('overview'),
   })
   const collections = useQuery({
-    queryKey: ['backoffice', 'collections', months],
-    queryFn: () => backoffice.get<Collections>('/api/admin/insights/collections', months),
+    queryKey: ['backoffice', 'collections', params('collections')],
+    queryFn: () =>
+      backoffice.get<Collections>('/api/admin/insights/collections', params('collections')),
     enabled: relevant('revenue'),
   })
   const orders = useQuery({
-    queryKey: ['backoffice', 'order-funnel', days],
-    queryFn: () => backoffice.get<OrderFunnel>('/api/admin/insights/order-funnel', days),
+    queryKey: ['backoffice', 'order-funnel', params('order-funnel')],
+    queryFn: () =>
+      backoffice.get<OrderFunnel>('/api/admin/insights/order-funnel', params('order-funnel')),
     enabled: relevant('revenue'),
   })
   const sales = useQuery({
@@ -126,11 +153,12 @@ export function InsightsPage() {
     enabled: relevant('revenue'),
   })
   const datasets = useQuery({
-    queryKey: ['backoffice', 'dataset-trends', months],
-    queryFn: () => backoffice.get<Datasets>('/api/admin/insights/datasets', months),
+    queryKey: ['backoffice', 'dataset-trends', params('datasets')],
+    queryFn: () => backoffice.get<Datasets>('/api/admin/insights/datasets', params('datasets')),
     enabled: relevant('datasets'),
   })
-  const filterLink = (s: string) => `/admin/insights/${s}?${new URLSearchParams(months)}`
+  const filterLink = (s: string) =>
+    `/admin/insights/${s}?${new URLSearchParams({ ...months, orgId, layoutType, period: mode, unit: usageUnit })}`
   return (
     <>
       <PageHeading
@@ -141,37 +169,113 @@ export function InsightsPage() {
       />
       <div className="bo-filters">
         <label>
-          시작 월
+          기간 단위
+          <select
+            value={mode}
+            onChange={(e) => {
+              const next = e.target.value
+              updateFilters({
+                period: next,
+                from: next === 'month' ? from.slice(0, 7) : days.from,
+                to: next === 'month' ? to.slice(0, 7) : days.to,
+              })
+            }}
+          >
+            <option value="month">월</option>
+            <option value="day">날짜</option>
+          </select>
+        </label>
+        <label>
+          시작 {mode === 'month' ? '월' : '일'}
           <input
-            type="month"
+            type={mode === 'month' ? 'month' : 'date'}
             value={from}
             max={to}
-            onChange={(e) => {
-              setFrom(e.target.value)
-              setSearch({ from: e.target.value, to }, { replace: true })
-            }}
+            onChange={(e) => updateFilters({ from: e.target.value })}
           />
         </label>
         <span>—</span>
         <label>
-          종료 월
+          종료 {mode === 'month' ? '월' : '일'}
           <input
-            type="month"
+            type={mode === 'month' ? 'month' : 'date'}
             value={to}
             min={from}
-            max={now}
-            onChange={(e) => {
-              setTo(e.target.value)
-              setSearch({ from, to: e.target.value }, { replace: true })
-            }}
+            onChange={(e) => updateFilters({ to: e.target.value })}
           />
         </label>
-        <span className="bo-badge">전체 기관 · KST</span>
+        {section !== 'datasets' && (
+          <label>
+            기관
+            <select value={orgId} onChange={(e) => updateFilters({ orgId: e.target.value })}>
+              <option value="">전체 기관</option>
+              {orgId && !orgs.data?.items.some((o) => o.orgId === orgId) && (
+                <option value={orgId}>선택 기관</option>
+              )}
+              {orgs.data?.items.map((o) => (
+                <option key={o.orgId} value={o.orgId}>
+                  {o.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+        {['overview', 'quality', 'retention'].includes(section) && (
+          <label>
+            쪽 유형 · AI 지표
+            <select
+              value={layoutType}
+              onChange={(e) => updateFilters({ layoutType: e.target.value })}
+            >
+              <option value="">전체 쪽 유형</option>
+              {layoutTypes.map((value) => (
+                <option key={value} value={value}>
+                  {layoutLabel(value)}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+        {['overview', 'usage'].includes(section) && (
+          <label>
+            사용 집계 단위
+            <select value={usageUnit} onChange={(e) => updateFilters({ unit: e.target.value })}>
+              <option value="month">월별</option>
+              <option value="week">주별</option>
+            </select>
+          </label>
+        )}
+        <span className="bo-badge">KST</span>
         <span className="bo-muted">각 카드의 집계 기준을 확인하세요.</span>
       </div>
+      {orgs.isError && section !== 'datasets' && (
+        <p className="error-box" role="alert">
+          기관 목록을 불러오지 못했습니다.{' '}
+          <button className="btn" onClick={() => void orgs.refetch()}>
+            다시 조회
+          </button>
+        </p>
+      )}
+      {layoutType && section === 'overview' && (
+        <p className="bo-callout">
+          쪽 유형은 AI 품질·성공률 카드에만 적용됩니다. 매출·사용·잔여 크레딧은 전체 쪽 유형
+          기준입니다.
+        </p>
+      )}
+      {section === 'datasets' && (
+        <p className="bo-callout">
+          데이터셋은 전체 기관·전체 쪽 유형의 확보량입니다. 기간 조건만 적용됩니다.
+        </p>
+      )}
+      {orgId && section === 'revenue' && (
+        <p className="bo-callout">
+          영업 기회 퍼널은 전체 기관 기준입니다. 나머지 매출·수금·추가 구매 카드는 선택 기관
+          기준입니다.
+        </p>
+      )}
       {!valid ? (
         <p role="alert" className="error-box">
-          시작·종료 월을 확인해 주세요. 오늘까지 최대 400일 범위로 조회할 수 있습니다.
+          기간과 필터를 확인해 주세요. 월 또는 날짜로 최대 400일 범위까지 조회할 수 있습니다.
         </p>
       ) : (
         <>
@@ -341,7 +445,12 @@ export function InsightsPage() {
                 {(l) => (
                   <Panel
                     title="크레딧 부족 기관"
-                    note={`현재 기준 · 관문 잔여 ${number(l.threshold)} 미만 · ${number(l.organizationsChecked)}개 기관 확인 · ${timestamp(l.generatedAt)}`}
+                    note={
+                      <>
+                        {`현재 기준 · 관문 잔여 ${number(l.threshold)} 미만 · ${number(l.organizationsChecked)}개 기관 확인 · ${timestamp(l.generatedAt)}`}{' '}
+                        · <FilterScope filters={l.filters} />
+                      </>
+                    }
                   >
                     <div className="bo-table-wrap">
                       <table className="bo-table">
@@ -369,7 +478,11 @@ export function InsightsPage() {
                         </tbody>
                       </table>
                       {!l.organizations.length && (
-                        <p className="bo-empty">부족한 기관이 없습니다.</p>
+                        <p className="bo-empty">
+                          {l.organizationsChecked === 0
+                            ? '판정 대상 기관이 없습니다. 삭제·만료 기관은 잔액 판정에서 제외됩니다.'
+                            : '부족한 기관이 없습니다.'}
+                        </p>
                       )}
                     </div>
                   </Panel>
@@ -639,24 +752,33 @@ export function InsightsPage() {
                         />
                       }
                     >
-                      <div className="bo-metrics">
-                        <Metric label="중앙값" value={`${number(q.processingTime.p50Sec)}초`} />
-                        <Metric label="P90" value={`${number(q.processingTime.p90Sec)}초`} />
-                        <Metric
-                          label="완료 작업 표본"
-                          value={`${number(q.processingTime.jobs)}건`}
-                        />
-                      </div>
-                      <Bars
-                        rows={q.processingTime.buckets.map((b) => ({
-                          label:
-                            b.toMinutes == null
-                              ? `${b.fromMinutes}분 이상`
-                              : `${b.fromMinutes}~${b.toMinutes}분`,
-                          value: b.jobs,
-                        }))}
-                        unit="건"
-                      />
+                      {q.processingTime ? (
+                        <>
+                          <div className="bo-metrics">
+                            <Metric label="중앙값" value={`${number(q.processingTime.p50Sec)}초`} />
+                            <Metric label="P90" value={`${number(q.processingTime.p90Sec)}초`} />
+                            <Metric
+                              label="완료 작업 표본"
+                              value={`${number(q.processingTime.jobs)}건`}
+                            />
+                          </div>
+                          <Bars
+                            rows={q.processingTime.buckets.map((b) => ({
+                              label:
+                                b.toMinutes == null
+                                  ? `${b.fromMinutes}분 이상`
+                                  : `${b.fromMinutes}~${b.toMinutes}분`,
+                              value: b.jobs,
+                            }))}
+                            unit="건"
+                          />
+                        </>
+                      ) : (
+                        <p className="bo-callout">
+                          유형별로는 볼 수 없음 · 변환 처리 시간은 작업 단위입니다. 전체 쪽 유형을
+                          선택해 주세요.
+                        </p>
+                      )}
                     </Panel>
                   )}
                 </Query>

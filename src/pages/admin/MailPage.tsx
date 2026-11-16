@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { backoffice } from '@/api/backoffice/client'
 import { action } from '@/api/backoffice/actions'
+import { validateMailAttachment } from '@/api/backoffice/mailAttachments'
+import { MailAttachmentSummary } from '@/components/MailAttachmentSummary'
 import type { Json, Row } from '@/api/backoffice/types'
 import {
   ActionDialog,
@@ -89,7 +91,7 @@ export function MailPage() {
           ],
           initial,
           required: ['toAddresses', 'subject', 'bodyText'],
-          hint: '글 본문만 발송할 수 있습니다. 현재 첨부 발송은 지원되지 않습니다.',
+          hint: '초안을 저장한 뒤 파일을 첨부할 수 있습니다. 발송 전에 수신자·본문·첨부를 함께 확인합니다.',
           onSuccess: (r) => {
             setSelectedDraft(String(asRow(r as Json).id))
             setTab('drafts')
@@ -463,6 +465,7 @@ export function MailPage() {
             <Query state={draft}>
               {(d) => {
                 const editable = ['DRAFT', 'CONFIRMED', 'SEND_FAILED'].includes(String(d.status))
+                const attachments = rowsOf(d.attachments)
                 const snapshot = Object.fromEntries(
                   draftFields.map((f) => [f.key, d[f.key] ?? null]),
                 )
@@ -475,6 +478,75 @@ export function MailPage() {
                       <span className="bo-badge">{mailStatus[String(d.status)]}</span>
                     </p>
                     <Details value={snapshot} />
+                    <MailAttachmentSummary attachments={attachments} />
+                    <div className="bo-actions">
+                      {attachments.map((file) => (
+                        <span key={String(file.id)} className="bo-actions">
+                          <button
+                            className="btn btn--sm"
+                            onClick={() => void openAttachment(file.id)}
+                          >
+                            {textOf(file.fileName)} 열기
+                          </button>
+                          {editable && (
+                            <button
+                              className="btn btn--sm"
+                              onClick={() =>
+                                setCommand(
+                                  action(
+                                    '첨부파일 삭제',
+                                    'DELETE',
+                                    '/api/admin/official-mail/drafts/{draftId}/attachments/{attachmentId}',
+                                    { draftId: selectedDraft, attachmentId: String(file.id) },
+                                    {
+                                      hint: `${textOf(file.fileName)}을 초안에서 제거합니다. 기존 발송 확인이 해제됩니다.`,
+                                      reviewOnly: true,
+                                    },
+                                  ),
+                                )
+                              }
+                            >
+                              {textOf(file.fileName)} 삭제
+                            </button>
+                          )}
+                        </span>
+                      ))}
+                      {editable && (
+                        <button
+                          className="btn"
+                          onClick={() =>
+                            setCommand(
+                              action(
+                                '메일 첨부 올리기',
+                                'POST',
+                                '/api/admin/official-mail/drafts/{draftId}/attachments',
+                                { draftId: selectedDraft },
+                                {
+                                  fields: [],
+                                  upload: true,
+                                  uploadAccept: '',
+                                  maxFileMB: 10,
+                                  uploadLabel: '첨부파일 · 파일당 10MB · 합계 17MB · 최대 10개',
+                                  validateFile: (file) =>
+                                    validateMailAttachment(
+                                      file,
+                                      attachments.map((a) => ({ sizeBytes: Number(a.sizeBytes) })),
+                                    ),
+                                  hint: '파일은 한 번에 하나씩 올립니다. 첨부를 바꾸면 발송 확인이 해제되어 다시 확인해야 합니다.',
+                                },
+                              ),
+                            )
+                          }
+                        >
+                          + 첨부파일 추가
+                        </button>
+                      )}
+                    </div>
+                    {downloadError && (
+                      <p role="alert" className="error-box">
+                        {downloadError}
+                      </p>
+                    )}
                     {d.failureReason && (
                       <p role="alert" className="error-box">
                         {textOf(d.failureReason)}
@@ -508,7 +580,7 @@ export function MailPage() {
                             onClick={() =>
                               setCommand(
                                 action(
-                                  '수신자 · 본문 확인',
+                                  '수신자 · 본문 · 첨부 확인',
                                   'POST',
                                   '/api/admin/official-mail/drafts/{draftId}/confirm',
                                   { draftId: selectedDraft },
@@ -517,7 +589,11 @@ export function MailPage() {
                                     initial: snapshot,
                                     required: ['toAddresses', 'subject', 'bodyText'],
                                     reviewOnly: true,
-                                    hint: '화면에서 본 내용이 저장본과 같아야 발송 확인이 됩니다. 내용을 바꾸려면 초안 수정부터 진행하세요.',
+                                    bodyExtras: {
+                                      attachmentIds: attachments.map((file) => file.id),
+                                    },
+                                    review: <MailAttachmentSummary attachments={attachments} />,
+                                    hint: '수신자·본문·첨부가 저장본과 같아야 확인됩니다. 내용을 바꾸려면 초안 수정부터 진행하세요.',
                                   },
                                 ),
                               )
@@ -554,7 +630,14 @@ export function MailPage() {
                                 { draftId: selectedDraft },
                                 {
                                   idempotent: true,
-                                  hint: `받는 사람: ${textOf(d.toAddresses)} · 참조: ${textOf(d.ccAddresses)} · 숨은 참조: ${textOf(d.bccAddresses)} · 제목: ${textOf(d.subject)}. 확인한 본문으로 발송합니다. 첨부 없음.`,
+                                  reviewOnly: true,
+                                  review: (
+                                    <>
+                                      <Details value={snapshot} />
+                                      <MailAttachmentSummary attachments={attachments} />
+                                    </>
+                                  ),
+                                  hint: '확인한 수신자·본문·첨부로 발송합니다. 첨부가 바뀌었다면 초안을 다시 불러와 확인해야 합니다.',
                                 },
                               ),
                             )

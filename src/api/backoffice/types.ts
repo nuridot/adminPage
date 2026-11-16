@@ -10,6 +10,12 @@ export interface Basis {
   from: string
   to: string
   timezone: string
+  filters?: InsightScope
+}
+export interface InsightScope {
+  orgId: string | null
+  orgName: string | null
+  layoutType: string | null
 }
 export interface Revenue {
   basis: Basis
@@ -96,7 +102,7 @@ export interface Quality {
     maxSec: number | null
     perPageP50Sec: number | null
     buckets: { fromMinutes: number; toMinutes: number | null; jobs: number }[]
-  }
+  } | null
 }
 export interface CollectionCohort {
   billingMonth: string | null
@@ -140,6 +146,7 @@ export interface Datasets {
   }[]
 }
 export interface LowCredit {
+  filters?: InsightScope
   generatedAt: string
   timezone: string
   threshold: number

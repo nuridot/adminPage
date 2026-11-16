@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
+import { reportRenderError } from '@/monitoring/sentry'
 
 /**
  * 렌더 중 예외를 받아 냅니다.
@@ -18,6 +19,7 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
+    reportRenderError(error)
     // 콘솔에도 남겨 둡니다 — 스택이 있어야 원인을 좁힐 수 있습니다.
     console.error('[semojum-admin] 화면을 그리다 멈췄습니다.', error, info.componentStack)
   }
@@ -33,7 +35,8 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, State> {
             <strong>화면을 그리지 못했습니다.</strong>
             <span>{error.message}</span>
             <span className="muted" style={{ fontSize: 12 }}>
-              서버 응답이 예상과 다를 때 주로 납니다. 이 문구를 그대로 알려 주시면 원인을 좁힐 수 있습니다.
+              서버 응답이 예상과 다를 때 주로 납니다. 이 문구를 그대로 알려 주시면 원인을 좁힐 수
+              있습니다.
             </span>
           </div>
           <button

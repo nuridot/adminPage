@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client'
 import { App } from './App'
 import './styles/global.css'
 import './styles/backoffice.css'
+import { initializeMonitoring } from './monitoring/sentry'
+
+initializeMonitoring()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

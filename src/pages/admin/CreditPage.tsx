@@ -86,8 +86,9 @@ export function CreditPage() {
         }
       />
       <p className="bo-callout">
-        현재 원장은 병행 기록 단계입니다. 원장 가용량과 서비스 관문 잔여를 함께 확인하고, 불일치는
-        대사에서 확인하세요.
+        원장은 장부·대사용 기록이며 사용 제한은 서비스 잔여 기준입니다. 잔여가 적으면 여러 작업도 한
+        쪽씩 순서대로 변환해 느려질 수 있습니다. 결과를 받은 뒤 차감하므로 마지막 한 쪽에서 음수가
+        될 수 있고, 잔여가 0 이하이면 다음 쪽부터 크레딧 부족으로 제한됩니다.
       </p>
       <div className="bo-tabs">
         <button className={tab === 'wallets' ? 'active' : ''} onClick={() => setTab('wallets')}>
