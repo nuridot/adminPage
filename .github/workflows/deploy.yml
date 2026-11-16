@@ -37,7 +37,11 @@ jobs:
           VITE_API_SOURCE: http
           # 경로는 명세 그대로 /api/... 를 쓰므로 여기에는 호스트만 넣습니다.
           VITE_API_BASE_URL: https://api.semojum.app
+          VITE_SENTRY_DSN: ${{ vars.VITE_SENTRY_DSN }}
+          VITE_SENTRY_ENVIRONMENT: prod
+          VITE_SENTRY_RELEASE: ${{ github.sha }}
         run: |
+          test -n "$VITE_SENTRY_DSN"
           npm ci
           npm run check
           npm audit --audit-level=high
@@ -64,8 +68,8 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ubuntu
           key: ${{ secrets.VM_SSH_KEY }}
-          source: "dist/*"
-          target: "/home/ubuntu/admin-release"
+          source: 'dist/*'
+          target: '/home/ubuntu/admin-release'
           strip_components: 1
           rm: true
 

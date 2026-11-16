@@ -43,6 +43,11 @@ export interface Action {
   uploadOptional?: boolean
   maxFileMB?: number
   fileField?: string
+  uploadAccept?: string
+  uploadLabel?: string
+  validateFile?: (file: File) => string | null
+  bodyExtras?: Row
+  review?: ReactNode
   reviewOnly?: boolean
   validate?: (body: Row) => string | null
   hint?: string
@@ -291,7 +296,7 @@ export function ActionDialog({ action, onClose }: { action: Action; onClose: () 
         result = await backoffice.mutate(
           action.method ?? 'POST',
           action.path,
-          body ?? {},
+          { ...body, ...action.bodyExtras },
           action.idempotent ? requestKey : undefined,
           form,
         )
@@ -357,25 +362,40 @@ export function ActionDialog({ action, onClose }: { action: Action; onClose: () 
               setError(invalidOperation)
               return
             }
+            const invalidFile = file && action.validateFile?.(file)
+            if (invalidFile) {
+              setError(invalidFile)
+              return
+            }
             setBody(next)
           }}
         >
           <Fields fields={action.fields ?? []} value={values} onChange={setValues} />
           {action.upload && (
             <label className="bo-field">
-              <span>파일 · PDF, PNG, JPG · 최대 {action.maxFileMB ?? 10}MB</span>
+              <span>
+                {action.uploadLabel ?? `파일 · PDF, PNG, JPG · 최대 ${action.maxFileMB ?? 10}MB`}
+              </span>
               <input
                 required={!action.uploadOptional}
                 type="file"
-                accept=".pdf,.png,.jpg,.jpeg"
+                accept={
+                  action.uploadAccept === ''
+                    ? undefined
+                    : (action.uploadAccept ?? '.pdf,.png,.jpg,.jpeg')
+                }
                 onChange={(e) => {
                   const f = e.target.files?.[0]
-                  if (
+                  const invalid =
                     f &&
-                    (f.size > (action.maxFileMB ?? 10) * 1024 * 1024 ||
-                      !/\.(pdf|png|jpe?g)$/i.test(f.name))
-                  ) {
-                    setError(`PDF·PNG·JPG ${action.maxFileMB ?? 10}MB 이하 파일을 선택하세요.`)
+                    (action.validateFile
+                      ? action.validateFile(f)
+                      : f.size > (action.maxFileMB ?? 10) * 1024 * 1024 ||
+                          !/\.(pdf|png|jpe?g)$/i.test(f.name)
+                        ? `PDF·PNG·JPG ${action.maxFileMB ?? 10}MB 이하 파일을 선택하세요.`
+                        : null)
+                  if (invalid) {
+                    setError(invalid)
                     setFile(null)
                     e.target.value = ''
                   } else {
@@ -402,6 +422,7 @@ export function ActionDialog({ action, onClose }: { action: Action; onClose: () 
         <>
           <p>아래 대상과 내용을 확인한 후 실행해 주세요.</p>
           <Details value={body ?? {}} />
+          {action.review}
           {file && (
             <p>
               첨부: {file.name} ({number(file.size)} bytes)

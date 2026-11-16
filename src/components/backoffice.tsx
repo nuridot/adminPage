@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { Basis, Ratio } from '@/api/backoffice/types'
+import type { Basis, InsightScope, Ratio } from '@/api/backoffice/types'
 
 export const number = (value: number | null | undefined) =>
   value == null ? '—' : value.toLocaleString('ko-KR', { maximumFractionDigits: 1 })
@@ -15,10 +15,10 @@ export const layoutLabel = (value?: string | null) =>
     PAGE_LAYOUT_TABLE: '표',
     PAGE_LAYOUT_FORMULA: '수식',
     PAGE_LAYOUT_VISUAL: '그림',
-    PAGE_LAYOUT_UNSPECIFIED: '미분류',
+    PAGE_LAYOUT_UNSPECIFIED: '유형 모름',
   })[value ?? ''] ??
   value ??
-  '유형 모름'
+  '유형 없음'
 
 export function PageHeading({
   eyebrow,
@@ -91,8 +91,22 @@ export function Source({ basis, label }: { basis?: Basis; label: string }) {
         <>
           {' '}
           · {basis.from} ~ {basis.to} · KST · 집계 {timestamp(basis.generatedAt)}
+          {basis.filters && (
+            <>
+              {' '}
+              · <FilterScope filters={basis.filters} />
+            </>
+          )}
         </>
       )}
+    </span>
+  )
+}
+export function FilterScope({ filters }: { filters?: InsightScope }) {
+  return (
+    <span>
+      {filters?.orgId ? (filters.orgName ?? '선택 기관') : '전체 기관'} ·{' '}
+      {filters?.layoutType ? layoutLabel(filters.layoutType) : '전체 쪽 유형'}
     </span>
   )
 }

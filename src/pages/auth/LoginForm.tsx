@@ -6,6 +6,7 @@ import { useAuth } from '@/auth/AuthContext'
 import { LoginLayout } from './LoginLayout'
 import { MfaChallenge } from '@/auth/mfa'
 import { MfaForm } from './MfaForm'
+import { ApiError } from '@/api/http/client'
 
 interface Props {
   /** 카드 위에 적는 주소 — 이 진입점이 어디인지 알려 줍니다. */
@@ -76,9 +77,13 @@ export function LoginForm({
         return
       }
       setError(
-        caught instanceof LoginFailure
-          ? caught.message
-          : '로그인하지 못했습니다. 잠시 뒤 다시 시도해 주세요.',
+        caught instanceof ApiError && caught.code === 'AUTH4005'
+          ? '이 계정은 콘솔에 접근할 수 없습니다. 콘솔 운영자 계정으로 로그인해 주세요.'
+          : caught instanceof ApiError && caught.code === 'AUTH4006'
+            ? '로그인 시도가 반복되어 잠시 잠겼습니다. 10분 뒤 다시 시도해 주세요.'
+            : caught instanceof LoginFailure
+              ? caught.message
+              : '로그인하지 못했습니다. 잠시 뒤 다시 시도해 주세요.',
       )
     }
   }
