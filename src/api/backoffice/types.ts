@@ -16,6 +16,7 @@ export interface InsightScope {
   orgId: string | null
   orgName: string | null
   layoutType: string | null
+  appVersion?: string | null
 }
 export interface Revenue {
   basis: Basis
