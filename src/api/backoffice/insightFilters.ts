@@ -11,7 +11,18 @@ export interface InsightFilters {
   to: string
   orgId?: string
   layoutType?: string
+  appVersion?: string
 }
+
+export const appEventMetrics = [
+  'work-funnel',
+  'app-reliability',
+  'revision-rate',
+  'activity-time',
+  'org-retention',
+] as const
+export const validAppVersion = (value: string) =>
+  !value || /^[A-Za-z0-9][A-Za-z0-9._+\-]{0,31}$/.test(value)
 
 export function insightParams(metric: string, filters: InsightFilters) {
   const params: Record<string, string> = {}
@@ -22,6 +33,8 @@ export function insightParams(metric: string, filters: InsightFilters) {
   if (metric !== 'datasets' && filters.orgId) params.orgId = filters.orgId
   if (['ai-quality', 'attempt-success'].includes(metric) && filters.layoutType)
     params.layoutType = filters.layoutType
+  if (appEventMetrics.some((name) => name === metric) && filters.appVersion)
+    params.appVersion = filters.appVersion
   return params
 }
 

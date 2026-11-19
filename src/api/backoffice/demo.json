@@ -459,8 +459,12 @@
     "sentryUrl": "https://example.invalid/demo-file",
     "affectedJobCount": 12,
     "relatedReleaseId": 3,
-    "affectedOrgIds": ["5b0c7a1e-7c55-4a8e-9d0a-2f3e1c9b8a77"],
-    "relatedInquiryIds": ["c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f"],
+    "affectedOrgIds": [
+      "5b0c7a1e-7c55-4a8e-9d0a-2f3e1c9b8a77"
+    ],
+    "relatedInquiryIds": [
+      "c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f"
+    ],
     "startedAt": "2026-11-14T00:03:00Z",
     "resolvedAt": "2026-11-14T00:40:00Z",
     "createdBy": "0f5e8c1a-3b2d-4c6e-9a1f-7d8e2b4c6a10",
@@ -512,7 +516,9 @@
         "monthlyFeeKrw": 500000,
         "signedFileUploaded": true,
         "renewedFromId": null,
-        "renewedByIds": ["a1f2c3d4-5e6f-4a7b-8c9d-0e1f2a3b4c5d"],
+        "renewedByIds": [
+          "a1f2c3d4-5e6f-4a7b-8c9d-0e1f2a3b4c5d"
+        ],
         "activatedAt": "2026-11-13T18:54:34.553633Z",
         "endedOn": null,
         "endReason": null,
@@ -1094,7 +1100,9 @@
       "signatureStatus": "PENDING",
       "minSupportedVersion": "1.0.0",
       "targetScope": "ORGS",
-      "targetOrgIds": ["5b0c7a1e-7c55-4a8e-9d0a-2f3e1c9b8a77"],
+      "targetOrgIds": [
+        "5b0c7a1e-7c55-4a8e-9d0a-2f3e1c9b8a77"
+      ],
       "status": "DRAFT",
       "displayStatus": "DRAFT",
       "noteStatus": "DRAFT",
@@ -2175,5 +2183,438 @@
   "/api/admin/orders/{orderId}/receipt": {
     "fileName": "계산서_2월.pdf",
     "url": "https://example.invalid/demo-file 15분)"
+  },
+  "/api/admin/insights/work-funnel": {
+    "basis": {
+      "generatedAt": "2026-11-17T22:10:00.123+09:00",
+      "from": "2026-11-07",
+      "to": "2026-11-17",
+      "timezone": "Asia/Seoul",
+      "filters": {
+        "orgId": null,
+        "orgName": null,
+        "layoutType": null,
+        "appVersion": null
+      }
+    },
+    "collectedFrom": "2026-11-15T10:00:00+09:00",
+    "openedSessions": 7,
+    "ai": {
+      "attempted": 3,
+      "converted": 2,
+      "saved": 1,
+      "completed": 1,
+      "attemptRate": {
+        "numerator": 3,
+        "denominator": 7,
+        "rate": 0.4286
+      },
+      "convertRate": {
+        "numerator": 2,
+        "denominator": 3,
+        "rate": 0.6667
+      },
+      "saveRate": {
+        "numerator": 1,
+        "denominator": 2,
+        "rate": 0.5
+      },
+      "completeRate": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      }
+    },
+    "noAi": {
+      "sessions": 4,
+      "saved": 2,
+      "completed": 1,
+      "saveRate": {
+        "numerator": 2,
+        "denominator": 4,
+        "rate": 0.5
+      },
+      "completeRate": {
+        "numerator": 1,
+        "denominator": 2,
+        "rate": 0.5
+      }
+    },
+    "completedSessions": 2,
+    "completionAwaitingSave": 1,
+    "inProgressSessions": 1,
+    "stalledSessions": 4,
+    "inProgressHours": 24,
+    "exportedSessions": 1,
+    "exportRate": {
+      "numerator": 1,
+      "denominator": 7,
+      "rate": 0.1429
+    },
+    "jobLink": {
+      "jobs": 5,
+      "linkedJobs": 4,
+      "linkRate": {
+        "numerator": 4,
+        "denominator": 5,
+        "rate": 0.8
+      }
+    }
+  },
+  "/api/admin/insights/app-reliability": {
+    "basis": {
+      "generatedAt": "2026-11-17T22:10:00.123+09:00",
+      "from": "2026-11-07",
+      "to": "2026-11-17",
+      "timezone": "Asia/Seoul",
+      "filters": {
+        "orgId": null,
+        "orgName": null,
+        "layoutType": null,
+        "appVersion": null
+      }
+    },
+    "collectedFrom": "2026-11-14T10:00:00+09:00",
+    "recoveryWindowHours": 24,
+    "operations": [
+      {
+        "eventName": "document_open_result",
+        "success": 0,
+        "failure": 1,
+        "cancelled": 0,
+        "failureRate": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "initialFailures": 1,
+        "recovered": 0,
+        "pendingRecovery": 0,
+        "recoveryRate": {
+          "numerator": 0,
+          "denominator": 1,
+          "rate": 0.0
+        }
+      },
+      {
+        "eventName": "save_result",
+        "success": 3,
+        "failure": 4,
+        "cancelled": 1,
+        "failureRate": {
+          "numerator": 4,
+          "denominator": 7,
+          "rate": 0.5714
+        },
+        "initialFailures": 3,
+        "recovered": 1,
+        "pendingRecovery": 1,
+        "recoveryRate": {
+          "numerator": 1,
+          "denominator": 2,
+          "rate": 0.5
+        }
+      },
+      {
+        "eventName": "export_result",
+        "success": 1,
+        "failure": 0,
+        "cancelled": 0,
+        "failureRate": {
+          "numerator": 0,
+          "denominator": 1,
+          "rate": 0.0
+        },
+        "initialFailures": 0,
+        "recovered": 0,
+        "pendingRecovery": 0,
+        "recoveryRate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        }
+      }
+    ],
+    "errors": [
+      {
+        "eventName": "save_result",
+        "errorCode": "timeout",
+        "failures": 2
+      },
+      {
+        "eventName": "document_open_result",
+        "errorCode": "file_not_found",
+        "failures": 1
+      },
+      {
+        "eventName": "save_result",
+        "errorCode": "disk_full",
+        "failures": 1
+      },
+      {
+        "eventName": "save_result",
+        "errorCode": "server_error",
+        "failures": 1
+      }
+    ]
+  },
+  "/api/admin/insights/revision-rate": {
+    "basis": {
+      "generatedAt": "2026-11-17T22:10:00.123+09:00",
+      "from": "2026-11-07",
+      "to": "2026-11-17",
+      "timezone": "Asia/Seoul",
+      "filters": {
+        "orgId": null,
+        "orgName": null,
+        "layoutType": null,
+        "appVersion": null
+      }
+    },
+    "collectedFrom": "2026-11-15T10:01:00+09:00",
+    "aiRevision": {
+      "representation": "text",
+      "allSessions": {
+        "sessions": 3,
+        "targets": 7,
+        "comparable": 4,
+        "edited": 2,
+        "baselineMissing": 1,
+        "unsupported": 1,
+        "notObserved": 1,
+        "correctionRatio": {
+          "numerator": 2,
+          "denominator": 4,
+          "rate": 0.5
+        },
+        "netEditRate": {
+          "numerator": 20,
+          "denominator": 160,
+          "rate": 0.125
+        },
+        "observationRate": {
+          "numerator": 4,
+          "denominator": 6,
+          "rate": 0.6667
+        },
+        "summaryMissing": 2
+      },
+      "completedSessions": {
+        "sessions": 1,
+        "targets": 4,
+        "comparable": 2,
+        "edited": 1,
+        "baselineMissing": 1,
+        "unsupported": 0,
+        "notObserved": 1,
+        "correctionRatio": {
+          "numerator": 1,
+          "denominator": 2,
+          "rate": 0.5
+        },
+        "netEditRate": {
+          "numerator": 20,
+          "denominator": 150,
+          "rate": 0.1333
+        },
+        "observationRate": {
+          "numerator": 2,
+          "denominator": 3,
+          "rate": 0.6667
+        },
+        "summaryMissing": 1
+      }
+    },
+    "engineRevision": {
+      "representation": "braille",
+      "allSessions": {
+        "sessions": 1,
+        "targets": 1,
+        "comparable": 1,
+        "edited": 1,
+        "baselineMissing": 0,
+        "unsupported": 0,
+        "notObserved": 0,
+        "correctionRatio": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "netEditRate": {
+          "numerator": 4,
+          "denominator": 40,
+          "rate": 0.1
+        },
+        "observationRate": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "summaryMissing": null
+      },
+      "completedSessions": {
+        "sessions": 1,
+        "targets": 1,
+        "comparable": 1,
+        "edited": 1,
+        "baselineMissing": 0,
+        "unsupported": 0,
+        "notObserved": 0,
+        "correctionRatio": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "netEditRate": {
+          "numerator": 4,
+          "denominator": 40,
+          "rate": 0.1
+        },
+        "observationRate": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "summaryMissing": null
+      }
+    }
+  },
+  "/api/admin/insights/activity-time": {
+    "basis": {
+      "generatedAt": "2026-11-17T22:10:00.123+09:00",
+      "from": "2026-11-07",
+      "to": "2026-11-17",
+      "timezone": "Asia/Seoul",
+      "filters": {
+        "orgId": null,
+        "orgName": null,
+        "layoutType": null,
+        "appVersion": null
+      }
+    },
+    "collectedFrom": "2026-11-15T09:59:50+09:00",
+    "coverage": "partial",
+    "totalActiveMs": null,
+    "observedActiveMs": 135000,
+    "completeSessionsTotalActiveMs": 60000,
+    "sessions": {
+      "total": 4,
+      "complete": 1,
+      "partial": 2,
+      "unavailable": 1,
+      "clockSuspect": 0
+    },
+    "completeSessionActiveMs": {
+      "sessions": 1,
+      "p50": 60000,
+      "p90": 60000
+    },
+    "elapsedMs": {
+      "sessions": 2,
+      "p50": 85000,
+      "p90": 105000
+    }
+  },
+  "/api/admin/insights/org-retention": {
+    "basis": {
+      "generatedAt": "2026-11-17T22:10:00.123+09:00",
+      "from": "2026-10-13",
+      "to": "2026-11-23",
+      "timezone": "Asia/Seoul",
+      "filters": {
+        "orgId": null,
+        "orgName": null,
+        "layoutType": null,
+        "appVersion": null
+      }
+    },
+    "collectedFrom": "2026-10-20T00:00:00+09:00",
+    "retentionWeeks": [
+      1,
+      2,
+      4
+    ],
+    "weeks": [
+      {
+        "weekStart": "2026-10-13",
+        "finished": true,
+        "collected": false,
+        "activeOrgs": null,
+        "activeOrgsSoFar": null,
+        "retention": [
+          {
+            "weeksAfter": 1,
+            "targetWeekStart": "2026-10-20",
+            "retained": null
+          },
+          {
+            "weeksAfter": 2,
+            "targetWeekStart": "2026-10-27",
+            "retained": null
+          },
+          {
+            "weeksAfter": 4,
+            "targetWeekStart": "2026-11-10",
+            "retained": null
+          }
+        ]
+      },
+      {
+        "weekStart": "2026-10-20",
+        "finished": true,
+        "collected": true,
+        "activeOrgs": 2,
+        "activeOrgsSoFar": null,
+        "retention": [
+          {
+            "weeksAfter": 1,
+            "targetWeekStart": "2026-10-27",
+            "retained": {
+              "numerator": 1,
+              "denominator": 2,
+              "rate": 0.5
+            }
+          },
+          {
+            "weeksAfter": 2,
+            "targetWeekStart": "2026-11-03",
+            "retained": {
+              "numerator": 1,
+              "denominator": 2,
+              "rate": 0.5
+            }
+          },
+          {
+            "weeksAfter": 4,
+            "targetWeekStart": "2026-11-17",
+            "retained": null
+          }
+        ]
+      },
+      {
+        "weekStart": "2026-11-17",
+        "finished": false,
+        "collected": true,
+        "activeOrgs": null,
+        "activeOrgsSoFar": 1,
+        "retention": [
+          {
+            "weeksAfter": 1,
+            "targetWeekStart": "2026-11-24",
+            "retained": null
+          },
+          {
+            "weeksAfter": 2,
+            "targetWeekStart": "2026-12-01",
+            "retained": null
+          },
+          {
+            "weeksAfter": 4,
+            "targetWeekStart": "2026-12-15",
+            "retained": null
+          }
+        ]
+      }
+    ]
   }
 }

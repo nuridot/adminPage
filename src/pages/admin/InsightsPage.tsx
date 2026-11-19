@@ -7,6 +7,7 @@ import {
   layoutTypes,
   periodBoundary,
   validInsightPeriod,
+  validAppVersion,
 } from '@/api/backoffice/insightFilters'
 import type {
   Attempts,
@@ -19,6 +20,7 @@ import type {
   Usage,
 } from '@/api/backoffice/types'
 import { Query } from '@/components/ui'
+import { AppEventInsights } from './AppEventInsights'
 import {
   Bars,
   FilterScope,
@@ -82,19 +84,21 @@ export function InsightsPage() {
   const to = search.get('to') ?? now
   const orgId = search.get('orgId') ?? ''
   const layoutType = search.get('layoutType') ?? ''
+  const appVersion = search.get('appVersion') ?? ''
   const mode = search.get('period') === 'day' || from.length === 10 ? 'day' : 'month'
   const usageUnit = search.get('unit') === 'week' ? 'week' : 'month'
   const valid =
     validInsightPeriod(from, to) &&
     (isMockApi || !orgId || /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i.test(orgId)) &&
-    (!layoutType || layoutTypes.some((value) => value === layoutType))
+    (!layoutType || layoutTypes.some((value) => value === layoutType)) &&
+    validAppVersion(appVersion)
   const updateFilters = (values: Record<string, string>) => {
     const next = new URLSearchParams(search)
     for (const [key, value] of Object.entries(values))
       value ? next.set(key, value) : next.delete(key)
     setSearch(next, { replace: true })
   }
-  const filters = { from, to, orgId, layoutType }
+  const filters = { from, to, orgId, layoutType, appVersion }
   const params = (metric: string) => insightParams(metric, filters)
   const months = { from, to }
   const days = {
@@ -158,7 +162,7 @@ export function InsightsPage() {
     enabled: relevant('datasets'),
   })
   const filterLink = (s: string) =>
-    `/admin/insights/${s}?${new URLSearchParams({ ...months, orgId, layoutType, period: mode, unit: usageUnit })}`
+    `/admin/insights/${s}?${new URLSearchParams({ ...months, orgId, layoutType, appVersion, period: mode, unit: usageUnit })}`
   return (
     <>
       <PageHeading
@@ -245,6 +249,17 @@ export function InsightsPage() {
             </select>
           </label>
         )}
+        {['overview', 'usage', 'quality', 'retention'].includes(section) && (
+          <label>
+            앱 버전 · 이벤트 지표
+            <input
+              value={appVersion}
+              maxLength={32}
+              placeholder="전체 버전"
+              onChange={(e) => updateFilters({ appVersion: e.target.value })}
+            />
+          </label>
+        )}
         <span className="bo-badge">KST</span>
         <span className="bo-muted">각 카드의 집계 기준을 확인하세요.</span>
       </div>
@@ -271,6 +286,12 @@ export function InsightsPage() {
         <p className="bo-callout">
           영업 기회 퍼널은 전체 기관 기준입니다. 나머지 매출·수금·추가 구매 카드는 선택 기관
           기준입니다.
+        </p>
+      )}
+      {appVersion && ['overview', 'usage', 'quality', 'retention'].includes(section) && (
+        <p className="bo-callout">
+          앱 버전은 작업 퍼널·앱 실패·교정 요약·활동 시간·기관 유지율에만 적용됩니다. 기존 서버
+          집계는 전체 앱 버전 기준입니다.
         </p>
       )}
       {!valid ? (
@@ -542,7 +563,8 @@ export function InsightsPage() {
                       </div>
                       <p className="bo-muted">{q.textCorrection.scope}</p>
                       <p className="bo-muted">
-                        비교 관측률·순 편집량은 미수집입니다. 개인 평가에 사용하지 않습니다.
+                        서버 저장 데이터 기준입니다. 앱의 기준본 비교·순 편집률은 별도 교정 요약에서
+                        확인할 수 있습니다. 개인 평가에 사용하지 않습니다.
                       </p>
                     </Panel>
                   )}
@@ -729,18 +751,9 @@ export function InsightsPage() {
                 </div>
               </>
             )}
-            {section === 'usage' && (
-              <Uncollected title="작업 퍼널 · 실패 후 복구">
-                문서 열기 → 변환 → 저장 → 완료를 같은 작업 회차로 연결하는 집계가 아직 제공되지
-                않습니다. 변환 작업 수를 퍼널 도달 수로 대신하지 않습니다.
-              </Uncollected>
-            )}
+            <AppEventInsights section={section} filters={filters} />
             {section === 'retention' && (
               <>
-                <Uncollected title="기관 유지율 · 완료 회차 활동 시간">
-                  기관 활동 코호트와 포커스·유휴 구간 수집이 필요합니다. 아래는 서버의 변환 처리
-                  시간이며 점역사의 활동 시간이 아닙니다.
-                </Uncollected>
                 <Query state={quality}>
                   {(q) => (
                     <Panel
