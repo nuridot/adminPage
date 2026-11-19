@@ -21,7 +21,7 @@
 
 ## 앱 이벤트: 콘솔과 별도로 필요한 작업
 
-서버의 `job_created`, `conversion_result`, `credit_captured`, `login_result`를 콘솔에서 중복 전송하지 않습니다. 데스크톱 앱의 열기·저장·내보내기·완료·교정·활동 이벤트는 이 저장소에서 발생하지 않습니다. 아직 확정되지 않은 `/api/events`를 호출하거나 미수집 지표를 추정해서 채우지 않습니다.
+서버의 `job_created`, `conversion_result`, `credit_captured`, `login_result`를 콘솔에서 중복 전송하지 않습니다. 데스크톱 앱의 열기·저장·내보내기·완료·교정·활동 이벤트는 Windows 편집기 `nuridot/Semojum`에서 발생합니다. 11/17에 `/api/events` 계약이 반영됐고, 11/19 콘솔은 [새 집계 API 5개](app-events-20261119.md)를 연결했습니다. 아래 표는 11/16 회신 당시 논의입니다.
 
 회신에서 언급한 `app-events-draft-20261116.md` 원문은 이번 첨부에 없습니다. 앱 저장소와 함께 다음 내용을 확정해야 합니다.
 
@@ -33,6 +33,6 @@
 | 내보내기 형식    | 앱에서 실제 지원하는 형식의 enum 필요. 확장자나 제품 명세를 추측하지 않음                         |
 | 전송 경로        | 인증된 서버 중계를 권장. 이벤트 UUID로 중복 제거, 최대 100개 배치, 조직·계정은 서버 인증에서 결정 |
 
-1차는 document_open_result, document_save_result, document_export_result, job_completed, 2차는 ai_revision_summary, 3차는 activity_state_changed 순서가 회신의 제안입니다. 이벤트 수집·집계가 제공되면 콘솔의 미수집 표시를 실제 지표로 연결할 수 있습니다.
+확정된 이벤트 이름은 document_open_result, save_result, export_result, job_completed, ai_revision_summary, activity_state_changed입니다. 전체 수집 스위치는 서버 환경 변수 APP_EVENTS_ENABLED로 관리하며, 콘솔 지표 연결과 수집 활성화는 별도입니다.
 
 개발 DB는 분리되어 있으나 별도 개발 API 서버는 없다는 답변을 반영했습니다. 운영 데이터를 대상으로 시험용 계약·입금·메일을 만들지 않았습니다. 실제 운영 MFA 및 쓰기 작업은 콘솔용 인증과 시험 대상이 있어야 통합 검증할 수 있습니다.
